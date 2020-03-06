@@ -1,0 +1,84 @@
+﻿@model Estimating_Tool.View_Model.ProjectVM
+
+@{
+    /**/
+
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Project</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.ProjectName)
+
+        @Html.EditorFor(model => model.ProjectName, new { htmlAttributes = new { @class = "form-control", @required = true, @id = "ProjectName" } })
+        @Html.ValidationMessageFor(model => model.ProjectName, "", new { @class = "text-danger" })
+
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.AtlasID)
+
+        @Html.EditorFor(model => model.AtlasID, new { htmlAttributes = new { @class = "form-control", @id = "AtlasID" } })
+        @Html.ValidationMessageFor(model => model.AtlasID, "", new { @class = "text-danger" })
+
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CurrencyId)
+        <br />
+        @Html.DropDownListFor(m => m.CurrencyId, Model.CurrencyNameList, new { @class = "dropdownSearch", @title = "Please select currency name" }) @*runs scripts below*@
+        @Html.ValidationMessageFor(model => model.CurrencyId, "", new { @class = "text-danger" })
+
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Rate)
+
+        @Html.EditorFor(model => model.Rate, new { htmlAttributes = new { @class = "form-control", @id = "Rate" } })
+        @Html.ValidationMessageFor(model => model.Rate, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CustomerID)
+        <br />
+        @Html.DropDownListFor(m => m.CustomerID, Model.CustomerNameList, new { @class = "dropdownSearch", @title = "Please select customer name" }) @*runs scripts below*@
+        @Html.ValidationMessageFor(model => model.CustomerID, "", new { @class = "text-danger" })
+
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.SelectedConsultantIds)
+        <br />
+        @Html.ListBox("ConsultantIds", Model.selectListItems, new { @class="dropdownSearch", @required = true})
+        @Html.ValidationMessageFor(model => model.SelectedConsultantIds, "", new { @class = "text-danger" })
+
+    </div>
+
+
+    <div class="form-actions no-color">
+        <input type="submit" value="Create" class="btn btn-default" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+</div>
+}
+
+
+
+@section Scripts {
+
+    <script>
+        selectdropdown(".dropdownSearch");
+    </script> 
+
+}

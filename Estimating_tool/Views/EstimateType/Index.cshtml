@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Estimating_Tool.Models.EstimateType>
+
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@using (Html.BeginForm())
+{
+    @Html.DropDownList("searchString", (IEnumerable<SelectListItem>)ViewBag.DropdownOptions, new { @class = "dropdownSearch", @id = "SearchEstimateType", @title = "Search Estimate Type" })
+    <input type="submit" value="search" id="SubmitButton" />
+    <input type="button" value="Clear" id="clearButton" onclick="ClearFields()" />
+}
+
+<table class="table">
+    @*Table headers with sorting*@
+    <tr>
+        <th>
+            @Html.ActionLink("Id", "Index", new { sortOrder = ViewBag.EstimateTypeIdSortParm, currentFilter = ViewBag.currentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Estimate Type", "Index", new { sortOrder = ViewBag.EstimateTypeStrSortParm, currentFilter = ViewBag.currentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Created Date", "Index", new { sortOrder = ViewBag.CreatedDateSortParm, currentFilter = ViewBag.currentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Created By", "Index", new { sortOrder = ViewBag.CreatedBySortParm, currentFilter = ViewBag.currentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Modified Date", "Index", new { sortOrder = ViewBag.ModifiedDateSortParm, currentFilter = ViewBag.currentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Modified By", "Index", new { sortOrder = ViewBag.ModifiedBySortParm, currentFilter = ViewBag.currentFilter })
+        </th>
+    </tr>
+
+    @*for loop of each record*@
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstimateTypeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstimateTypeStr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedDate)
+            </td>
+            <td>
+                @*Edit, Details, Delete links*@
+                @Html.ActionLink("Edit", "Edit", new { id = item.EstimateTypeId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.EstimateTypeId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.EstimateTypeId })
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@Html.Partial("_PagingPartial", Model) @*Paging*@
+
+@section Scripts{
+    <script>
+        selectdropdown(".dropdownSearch")
+    </script>
+    <script>
+        function ClearFields() {
+            document.getElementById('SearchEstimateType').value = ""; //sets the SearchBox textbox to value of null (clears it)
+            document.getElementById("SubmitButton").click(); //Applies the filter of null by clicking the submit button automatically
+        }
+    </script>
+}

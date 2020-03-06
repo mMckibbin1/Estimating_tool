@@ -1,0 +1,128 @@
+﻿@model IEnumerable<Estimating_Tool.Models.EstimateHeader>
+
+@{
+    /**/
+
+    /**/
+
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@using (Html.BeginForm("Index", "EstimateHeader", FormMethod.Get, new { @autocomplete = "off" }))
+{
+    @Html.DropDownList("CustomerNameSearch", (IEnumerable<SelectListItem>)ViewBag.DropdownOptionsCustomerName, new { @class = "dropdownSearch", @id = "SearchCustomerName", @title = "Search Customer name" })
+    @Html.DropDownList("ProjectName", (IEnumerable<SelectListItem>)ViewBag.DropdownOptionsProjectName, new { @class = "dropdownSearch", @id = "SearchProjectName", @title = "Search Project name" })
+    @Html.DropDownList("EstimateName", (IEnumerable<SelectListItem>)ViewBag.DropDownOptionsEstimateNames, new { @class = "dropdownSearch", @id = "SearchEstimateName", @title = "Search Estimate name" })
+    <input type="submit" value="search" id="SubmitButton" />
+    <input type="button" value="Clear" id="clearButton" onclick="ClearFields()" />
+}
+
+
+@if (TempData["RecordAdded"] != null)
+{
+    <div class="AllGood">
+        @TempData["RecordAdded"]
+    </div>
+}@if (TempData["RecordEdited"] != null)
+{
+    <div class="AllGood">
+        @TempData["RecordEdited"]
+    </div>
+}@if (TempData["RecordDeleted"] != null)
+{
+    <div class="AllGood">
+        @TempData["RecordDeleted"]
+    </div>
+}
+<table class="table">
+    @*Table headers with sorting*@
+    <tr>
+        <th>
+            @Html.ActionLink("Customer", "Index", new { sortOrder = ViewBag.CustomerIdSortParm, currentFilter = ViewBag.currentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Project", "Index", new { sortOrder = ViewBag.ProjectIdSortParm, currentFilter = ViewBag.currentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Estimate Name", "Index", new { sortOrder = ViewBag.EstimateNameSortParm, currentFilter = ViewBag.currentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("ROM", "Index", new { sortOrder = ViewBag.UnitOfMeasureIdSortParm, currentFilter = ViewBag.currentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Estimate Type", "Index", new { sortOrder = ViewBag.EstimateTypeIdSortParm, currentFilter = ViewBag.currentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Commercial Type", "Index", new { sortOrder = ViewBag.CommercialTypeIdSortParm, currentFilter = ViewBag.currentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Contingency %", "Index", new { sortOrder = ViewBag.ContingencyDefaultIdSortParm, currentFilter = ViewBag.currentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Estimate Status", "Index", new { sortOrder = ViewBag.EstimateStatusIdSortParm, currentFilter = ViewBag.currentFilter })
+        </th>
+        <th></th>
+    </tr>
+
+    @*for loop of each record*@
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.project.customer.CustomerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.project.ProjectName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstimateName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.unitOfMeasure.UnitOfMeasureStr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.estimateType.EstimateTypeStr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.commercialType.CommercialTypeStr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.contingencyDefault.ContingencyDefaultInt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.estimateStatus.EstimateStatusStr)
+            </td>
+            <td>
+                @*Edit, Details, Delete links*@
+                @Html.ActionLink("Edit", "Edit", new { id = item.EstimateHeaderId }) |
+                @Html.ActionLink("Details", "Index", "Estimation", new { id = item.EstimateHeaderId }, null) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.EstimateHeaderId })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.Partial("_PagingPartial", Model) 
+
+<br />
+@section Scripts{
+    <script>
+        selectdropdown(".dropdownSearch")
+    </script>
+
+    <script>
+        function ClearFields() {
+            document.getElementById('SearchCustomerName').value = ""; //sets the SearchBox textbox to value of null (clears it)
+            document.getElementById('SearchProjectName').value = ""; //sets the SearchBox textbox to value of null (clears it)
+            document.getElementById('SearchEstimateName').value = "";//sets the SearchBox textbox to value of null (clears it)
+            document.getElementById("SubmitButton").click(); //Applies the filter of null by clicking the submit button automatically
+        }
+    </script>
+}

@@ -1,0 +1,114 @@
+﻿@model PagedList.IPagedList<Estimating_Tool.Models.Project>
+@using PagedList.Mvc
+
+@{
+    /**/
+
+    ViewBag.Title = "Projects";
+}
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@using (Html.BeginForm())
+{
+    @Html.DropDownList("ProjectName", (IEnumerable<SelectListItem>)ViewBag.searchOptionsProjectName,new { @class = "dropdownSearch", @id = "SearchprojectName", @title= "Search Project Name" })
+    @Html.DropDownList("CustomerNameSearch", (IEnumerable<SelectListItem>)ViewBag.searchOptionsCustomerName, new { @class = "dropdownSearch", @id = "SearchCustomerName",@title= "Search Customer Name" })
+    @Html.DropDownList("AtlasIDs", (IEnumerable<SelectListItem>)ViewBag.searchOptionsAtlasID, new { @class = "dropdownSearch", @id = "SearchAtlasID",@title= "Search Atlas ID" })
+    <input type="submit" value="search" id="SubmitButton" />
+    <input type="button" value="Clear" id="clearButton" onclick="ClearFields()" />
+}
+
+@if (TempData["RecordAdded"] != null)
+{
+    <div class="AllGood">
+        @TempData["RecordAdded"]
+    </div>
+}@if (TempData["RecordEdited"] != null)
+{
+    <div class="AllGood">
+        @TempData["RecordEdited"]
+    </div>
+}@if (TempData["RecordDeleted"] != null)
+{
+    <div class="AllGood">
+        @TempData["RecordDeleted"]
+    </div>
+}
+<table class="table">
+	<tr>
+		<th>
+			@Html.ActionLink("Customer Name", "Index", new { sortOrder = ViewBag.CustomerSortname, currentFilterCustomer = ViewBag.currentFilterCustomer, currentFilterAtlasID = ViewBag.currentFilterAtlasID, currentFilterProject = ViewBag.currentFilterProject })
+		</th>
+		<th>
+			@Html.ActionLink("Atlas ID", "Index", new { sortOrder = ViewBag.AtlasID, currentFilterCustomer = ViewBag.currentFilterCustomer, currentFilterAtlasID = ViewBag.currentFilterAtlasID, currentFilterProject = ViewBag.currentFilterProject })
+		</th>
+		<th>
+			@Html.ActionLink("Project Name", "Index", new { sortOrder = ViewBag.ProjectSortname, currentFilterCustomer = ViewBag.currentFilterCustomer, currentFilterAtlasID = ViewBag.currentFilterAtlasID, currentFilterProject = ViewBag.currentFilterProject })
+		</th>
+        <th>
+            @Html.ActionLink("Currency", "Index", new { sortOrder = ViewBag.CurrencySort, currentFilterCustomer = ViewBag.currentFilterCustomer, currentFilterAtlasID = ViewBag.currentFilterAtlasID, currentFilterProject = ViewBag.currentFilterProject })
+        </th>
+		<th>
+			@Html.ActionLink("Rate", "Index", new { sortOrder = ViewBag.Rate, currentFilterCustomer = ViewBag.currentFilterCustomer, currentFilterAtlasID = ViewBag.currentFilterAtlasID, currentFilterProject = ViewBag.currentFilterProject })
+		</th>
+		<th></th>
+	</tr>
+
+    @foreach (var item in Model)
+    {
+	<tr class="hidden_table">
+		<td>
+			@Html.DisplayFor(modelItem => item.customer.CustomerName)
+
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.AtlasID)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.ProjectName)
+		</td>
+        <td>
+            @Html.DisplayFor(modelItem => item.currency.CurrencyName)
+        </td>
+		<td>
+			@Html.DisplayFor(modelItem => item.Rate)
+		</td>
+		<td>
+			@Html.ActionLink("Edit", "Edit", new { id = item.ProjectId, Return = "Project" }) |
+			@Html.ActionLink("Details", "Details", new { id = item.ProjectId, Return = "Project" }) |
+			@Html.ActionLink("Delete", "Delete", new { id = item.ProjectId })
+		</td>
+	</tr>
+    }
+
+</table>
+<br />
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+    @section Scripts{
+        <script>
+            $('#Reset').click(function () {
+                $('.inputText').val('');
+            });
+        </script>
+        <script>
+            selectdropdown(".dropdownSearch")
+        </script>
+
+        <script>
+            function ClearFields() {
+       
+                document.getElementById('SearchprojectName').value = ""; //sets the SearchBox textbox to value of null (clears it)
+                document.getElementById('SearchCustomerName').value = ""; //sets the SearchBox textbox to value of null (clears it)
+                document.getElementById('SearchAtlasID').value = ""; //sets the SearchBox textbox to value of null (clears it)
+                document.getElementById("SubmitButton").click(); //Applies the filter of null by clicking the submit button automatically
+            }
+        </script>
+    }
+
+

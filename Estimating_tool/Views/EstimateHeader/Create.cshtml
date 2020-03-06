@@ -1,0 +1,124 @@
+﻿@model Estimating_Tool.View_Model.EstimateHeaderVM
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm("Create", "EstimateHeader"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        <div class="form-group">
+            <div class="col-md-10">
+
+                @Html.LabelFor(model => model.EstimateName)
+
+                @Html.EditorFor(model => model.EstimateName, new { htmlAttributes = new { @class = "form-control", @id = "Testid" } })
+                @Html.ValidationMessageFor(model => model.EstimateName, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.LabelFor(model => Model.CustomerId)<br />
+
+                @Html.DropDownListFor(m => m.CustomerId, Model.CustomerIdList, new { @class = "dropdownSearch", @title = "Select Customer" })
+                @Html.HiddenFor(model => Model.CustomerId)
+                @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+
+                @Html.LabelFor(model => model.ProjectId)<br />
+
+                @Html.DropDownListFor(m => m.ProjectId, Model.ProjectIdList, new { @class = "dropdownSearch", @title = "Customer Required",@disabled = "true" })
+                @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+
+                @Html.LabelFor(model => model.EstimateTypeId)<br />
+
+                @Html.DropDownListFor(m => m.EstimateTypeId, Model.EstimateTypeIdList, new { @class = "dropdownSearch", @title = "Select Estimate type" })
+                @Html.ValidationMessageFor(model => model.EstimateTypeId, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+
+                @Html.LabelFor(model => model.EstimateStatusId)<br />
+
+                @Html.DropDownListFor(m => m.EstimateStatusId, Model.EstimateStatusIdList, new { @class = "dropdownSearch", @title = "Select Estimate Status" })
+                @Html.ValidationMessageFor(model => model.EstimateStatusId, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+
+                @Html.LabelFor(model => model.UnitofMeasureId)<br />
+                    @Html.DropDownListFor(m => m.UnitofMeasureId, Model.UnitofMeasureIdList, new { @class = "dropdownSearch", @title = "Select Unit of measure" })
+                    @Html.ValidationMessageFor(model => model.UnitofMeasureId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10">
+
+                    @Html.LabelFor(model => model.CommercialTypeId)<br />
+                   
+                        @Html.DropDownListFor(m => m.CommercialTypeId, Model.CommercialTypeIdList, new { @class = "dropdownSearch", @title = "Select Commercial Type" })
+                        @Html.ValidationMessageFor(model => model.CommercialTypeId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10 ContingencyDefaultIdContainer" id="ContingencyDefaultIdContainer">
+
+                    @Html.LabelFor(model => model.ContingencyDefaultId)<br />
+
+                    @Html.DropDownListFor(m => m.ContingencyDefaultId, Model.ContingencyDefaultIdList, new { @class = "dropdownSearch", @id = "ContingencyDefaultId", @title = "Select Contingency Default" })
+                    @Html.ValidationMessageFor(model => model.CommercialTypeId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <br />
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Create" class="btn btn-default" /> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>                       
+        </div>
+}
+
+
+
+@section Scripts{
+    <script src="~/Scripts/cascading_dropdown.js"></script>
+    <script>
+
+            $('#CustomerId').change(function (){
+                cascadingDropDown('#CustomerId', '#ProjectId', 'Select Project', '../EstimateHeader/updateProjectList', 'CustomerID');
+                document.getElementById("ProjectId").disabled = false;
+            });
+    </script>
+
+    <script>
+        selectdropdown(".dropdownSearch");
+    </script>
+
+}
+
+

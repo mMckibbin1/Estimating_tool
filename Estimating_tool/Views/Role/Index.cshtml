@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Estimating_Tool.Models.Role>
+
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@using (Html.BeginForm())
+{
+    @Html.DropDownList("searchString", (IEnumerable<SelectListItem>)ViewBag.DropdownOptions, new { @class = "dropdownSearch", @id = "SearchRole", @title= "Search Role Name" })
+    <input type="submit" value="search" id="SubmitButton" />
+    <input type="button" value="Clear" id="clearButton" onclick="ClearFields()" />
+}
+
+@if (TempData["RecordAdded"] != null)
+{
+    <div class="AllGood">
+        @TempData["RecordAdded"]
+    </div>
+}@if (TempData["RecordEdited"] != null)
+{
+    <div class="AllGood">
+        @TempData["RecordEdited"]
+    </div>
+}@if (TempData["RecordDeleted"] != null)
+{
+    <div class="AllGood">
+        @TempData["RecordDeleted"]
+    </div>
+}
+<table class="table">
+    @*Table headers with sorting*@
+    <tr>
+        <th>
+            @Html.ActionLink("Id", "Index", new { sortOrder = ViewBag.RoleIdSortParm, currentFilter = ViewBag.currentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Role Name", "Index", new { sortOrder = ViewBag.RoleNameSortParm, currentFilter = ViewBag.currentFilter })
+        </th>
+    </tr>
+
+    @*for loop of each record*@
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RoleName)
+            </td>
+            <td>
+                @*Edit, Details, Delete links*@
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.Partial("_PagingPartial", Model) @*Paging*@
+
+
+@section Scripts{
+    <script>
+        selectdropdown(".dropdownSearch")
+    </script>
+    <script>
+        function ClearFields() {
+            document.getElementById('SearchRole').value = ""; //sets the SearchBox textbox to value of null (clears it)
+            document.getElementById("SubmitButton").click(); //Applies the filter of null by clicking the submit button automatically
+        }
+    </script>
+}

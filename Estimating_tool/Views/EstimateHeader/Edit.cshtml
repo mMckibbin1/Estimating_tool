@@ -1,0 +1,129 @@
+﻿@model Estimating_Tool.View_Model.EstimateHeaderVM
+
+@{
+	ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+	<div class="form-horizontal">
+		<h4>Estimate Header</h4>
+		<hr />
+		<div class="form-group">
+			<div class="col-md-10">
+					@Html.LabelFor(model => model.EstimateName)
+
+					@Html.EditorFor(model => model.EstimateName, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.EstimateName, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-10">
+					@Html.LabelFor(model => model.EstimateTypeId)<br />
+
+					@Html.DropDownListFor(m => m.EstimateTypeId, Model.EstimateTypeIdList, new { @class = "dropdownSearch", @id = "EstimateTypeId", @name = "EstimateTypeId" })
+					@Html.ValidationMessageFor(model => model.EstimateTypeId, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-10">
+					@Html.LabelFor(model => model.EstimateStatusId)<br />
+
+					@Html.DropDownListFor(m => m.EstimateStatusId, Model.EstimateStatusIdList, new { @class = "dropdownSearch", @id = "EstimateStatusId" })
+					@Html.ValidationMessageFor(model => model.EstimateStatusId, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-10">
+					@Html.LabelFor(model => model.ProjectId)<br />
+
+					@Html.DropDownListFor(m => m.ProjectId, Model.ProjectIdList, "Select Project", new { @class = "dropdownSearch", @id = "ProjectId" })
+					@Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
+			</div>
+		</div>
+			<div class="form-group" style="float: left;">
+				<div class="col-md-10">
+						@Html.LabelFor(model => model.UnitofMeasureId)<br />
+
+						@Html.DropDownListFor(m => m.UnitofMeasureId, Model.UnitofMeasureIdList, "Select Unit of measure", new { @class = "dropdownSearch", @id = "UnitofMeasureId" })
+						@Html.ValidationMessageFor(model => model.UnitofMeasureId, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		<div class="form-group">
+			<div class="col-md-10">
+					@Html.LabelFor(model => model.CommercialTypeId)<br />
+
+					@Html.DropDownListFor(m => m.CommercialTypeId, Model.CommercialTypeIdList, "Select Commercial Type", new { @class = "dropdownSearch", @id = "CommercialTypeId" })
+					@Html.ValidationMessageFor(model => model.CommercialTypeId, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-10">
+					@Html.LabelFor(model => model.ContingencyDefaultId)<br />
+
+					@Html.DropDownListFor(m => m.ContingencyDefaultId, Model.ContingencyDefaultIdList, "Select Contingency Default", new { @class = "dropdownSearch", @id = "ContingencyDefaultId" })
+					@Html.ValidationMessageFor(model => model.CommercialTypeId, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-10">
+					@Html.LabelFor(model => model.CustomerId)<br />
+
+					@Html.DropDownListFor(m => m.CustomerId, Model.CustomerIdList, "Select Customer", new { @class = "dropdownSearch", @id = "CustomerId" })
+					@Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<input type="submit" value="Save" class="btn btn-default" />
+			</div>
+            </div>
+        </div>
+
+}
+
+
+@section scripts{
+    <script>selectdropdown(".dropdownSearch");</script>
+    <script>
+        
+
+        $('#CustomerId').change(function () {
+            var custID = $('#CustomerId').val();
+            $('#ProjectId').selectpicker({ title: 'Select Project' }).selectpicker('render');
+            $.ajax({
+                url: '/EstimateHeader/updateProjectList',
+                type: 'Get',
+                dataType: 'JSON',
+                data: { CustomerID: custID },
+                success: function (result) {
+                    var proList = $('#ProjectId');
+                    proList.find('option').remove().end();
+                    var counter = 0;
+                    $.each(result, function () {
+                        proList.append('<option Value =' + result[counter].Value + ' >' + result[counter].Text + '</option > ');
+                        counter++;
+                    });
+                    $('.dropdownSearch').selectpicker('refresh');
+                }
+            });
+
+
+        });
+    </script>
+
+}
+
+

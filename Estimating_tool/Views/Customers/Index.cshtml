@@ -1,0 +1,84 @@
+﻿@model PagedList.IPagedList<Estimating_Tool.Models.Customer>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+				/**/
+
+				ViewBag.Title = "Index";
+}
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+    @using (Html.BeginForm())
+    {
+        @Html.DropDownList("CustomerName", (IEnumerable<SelectListItem>)ViewBag.CustomerNameDistinct, new { @class = "dropdownSearch", @id = "SearchCustomerName" ,@title= "Search Customer Name" })
+        @Html.DropDownList("AtlasID", (List<SelectListItem>)ViewBag.CustomerAtlasIdDistinct,new { @class = "dropdownSearch", @id = "SearchAtlasID" ,@title= "Search Atlas Id" })
+        <input type="submit" value="search" id="SubmitButton" />
+        <input type="button" value="Clear" id="clearButton" onclick="ClearFields()" />
+    }
+
+    @if (TempData["RecordAdded"] != null)
+    {
+        <div class="AllGood">
+            @TempData["RecordAdded"]
+        </div>
+    }@if (TempData["RecordEdited"] != null)
+    {
+        <div class="AllGood">
+            @TempData["RecordEdited"]
+        </div>
+    }@if (TempData["RecordDeleted"] != null)
+    {
+        <div class="AllGood">
+            @TempData["RecordDeleted"]
+        </div>
+    }
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.ActionLink("Atlas Id", "Index", new { sortOrder = ViewBag.AtlasIDSort, CurrentFilterAtlasID = ViewBag.CurrentFilterAtlasID, CurrentFilterCustomerName = ViewBag.CurrentFilterCustomerName }, new { title = "Sort by Atlas Id" })
+            </th>
+            <th>
+                @Html.ActionLink("Customer Name", "Index", new { sortOrder = ViewBag.NameSortParm, CurrentFilterCustomerName = ViewBag.CurrentFilterCustomerName, CurrentFilterAtlasID = ViewBag.CurrentFilterAtlasID }, new { title = "Sort by Customer Name" })
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AtlasID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.CustomerID }) |
+                    @Html.ActionLink("Details", "Details", "CustomerDetails", new { id = item.CustomerID }, null) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.CustomerID })
+                </td>
+            </tr>
+        }
+
+    </table>
+    <br />
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page, sortOrder = ViewBag.CurrentSort, CurrentFilterAtlasID = ViewBag.CurrentFilterAtlasID, CurrentFilterCustomerName = ViewBag.CurrentFilterCustomerName }))
+
+    @section Scripts{
+        <script>
+            selectdropdown(".dropdownSearch")
+        </script>
+        <script>
+            function ClearFields() {
+                document.getElementById('SearchCustomerName').value = ""; //sets the SearchBox textbox to value of null (clears it)
+                document.getElementById('SearchAtlasID').value = ""; //sets the SearchBox textbox to value of null (clears it)
+                document.getElementById("SubmitButton").click(); //Applies the filter of null by clicking the submit button automatically
+            }
+        </script>
+        }

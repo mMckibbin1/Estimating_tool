@@ -1,0 +1,69 @@
+﻿@model Estimating_Tool.Models.EstimateType
+
+@{
+				/**/
+
+				ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+	<div class="form-horizontal">
+		<h4>Estimate Type</h4>
+		<hr />
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+		@Html.HiddenFor(model => model.EstimateTypeId)
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.EstimateTypeStr)
+
+			@Html.EditorFor(model => model.EstimateTypeStr, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.EstimateTypeStr, "", new { @class = "text-danger" })
+
+		</div>
+
+		<div class="hidden">
+			@Html.LabelFor(model => model.CreatedDate)
+
+			@Html.EditorFor(model => model.CreatedDate.Date.GetDateTimeFormats()[4], new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.CreatedDate, "", new { @class = "text-danger" })
+
+		</div>
+
+		<div class="hidden">
+			@Html.LabelFor(model => model.CreatedBy, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.CreatedBy, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.CreatedBy, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="hidden">
+			@Html.LabelFor(model => model.ModifiedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.ModifiedDate.Date.GetDateTimeFormats()[4], new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.ModifiedDate, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="hidden">
+			@Html.LabelFor(model => model.ModifiedBy, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.ModifiedBy, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.ModifiedBy, "", new { @class = "text-danger" })
+			</div>
+		</div>
+	</div>
+	<div class="form-actions no-color">
+		<input type="submit" value="Save" class="btn btn-default" /> |
+		@Html.ActionLink("Back to List", "Index")
+	</div>
+
+
+}
+
+

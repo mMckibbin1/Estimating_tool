@@ -1,0 +1,63 @@
+﻿@model Estimating_Tool.View_Model.CustomerDetails
+<div class="row">
+    <div class="column">
+        <div>
+            <h2>Customer Details </h2>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.CustomerID)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(ModelItem => Model.CustomerID)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.CustomerName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(ModelItem => Model.CustomerName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.CusAtlasID)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(ModelItem => Model.CusAtlasID)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.CreatedDate)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CreatedDate)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CreatedBy)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CreatedBy)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ModifiedDate)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ModifiedDate)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ModifiedBy)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ModifiedBy)
+                </dd>
+            </dl>
+        </div>
+        <p>
+            <input type="button" value="Edit" class="btn btn-default" onclick="location.href='@Url.Action("Edit", "Customers", new { id = Model.CustomerID}, null)'" /> |
+            @Html.ActionLink("Back to List", "Index", "Customers", null, null)
+        </p>
+    </div>
+</div>

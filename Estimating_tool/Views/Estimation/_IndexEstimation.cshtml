@@ -1,0 +1,87 @@
+﻿@model Estimating_Tool.View_Model.ParentEstimation
+@{
+    ViewBag.Title = "View";
+}
+
+<h2>General Estimations</h2>
+@*<input value="Open all tables" type="submit" id="OpenAll"/>*@
+@using (Html.BeginForm("Create", "Estimation", FormMethod.Post))
+{
+    foreach (var items in Model.groups.Where(x=> x.LineItemTypeGroupId !=2))//iterate through each lineitemTypeGroup that is not part of the development work group 
+    {
+        string tableId = "table"+items.LineItemTypeGroupStr.Replace(" ", string.Empty);//string used for table ID attribute.
+        string tableIdforJS = "'" + tableId + "'";//placing single quotes around tableID string so that when it is passed into JS function it is treated as string and not object
+        <table class="table general" id="@tableId">
+            <thead style="background-color: lightgray;">
+                <tr class="tableTop">
+                    <th><h4>@Html.DisplayFor(x => items.LineItemTypeGroupStr)</h4></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th><img class="toggle" src="~/Content/img/DownArrow.png" style="width:35px; height:35px; float:right" onclick="hide(@tableIdforJS,this)"/></th>
+                </tr>
+                <tr hidden="hidden" class="tableTop">
+                    <th>Tasks</th>
+                    <th>Duration</th>
+                    <th>Rate</th>
+                    <th>Contingency</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody hidden="hidden" style="background-color:gainsboro;">
+                @for (int i = 0; i < Model.estimationVMs.Count(); i++)
+                {
+                    if (Model.estimationVMs[i].LineItemTypeGroupId == items.LineItemTypeGroupId)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(x => x.estimationVMs[i].LineItem.LineItemStr)</td>
+                            <td>
+                                @Html.TextBoxFor(x => x.estimationVMs[i].Duration, new { onchange = "genTotals()" })
+                                @Html.ValidationMessageFor(x => x.SpecificTasks[i].Duration, "", new { @class = "text -danger" })
+                            </td>
+                            <td>@Html.TextBoxFor(x => x.estimationVMs[i].Rate, new { onchange = "genTotals()"})</td>
+                            <td>@Html.EditorFor(x => x.estimationVMs[i].ContingencyDefault)</td>
+                            <td><input readonly="readonly" /></td>
+
+                            @Html.HiddenFor(x => x.estimationVMs[i].group)
+                            @Html.HiddenFor(x => x.estimationVMs[i].Id)
+                            @Html.HiddenFor(x => x.estimationVMs[i].LineItem)
+                            @Html.HiddenFor(x => x.estimationVMs[i].LineItemId)
+                            @Html.HiddenFor(x => x.estimationVMs[i].LineItemType)
+                            @Html.HiddenFor(x => x.estimationVMs[i].LineItemTypeGroupId)
+                            @Html.HiddenFor(x => x.estimationVMs[i].LineItemTypeId)
+                            @Html.HiddenFor(x => x.estimationVMs[i].estimateHeader)
+                            @Html.HiddenFor(x => x.estimationVMs[i].EstimateHeaderId)
+
+                        </tr>
+
+
+                    }
+                }
+            </tbody>
+        </table>
+    }
+    <input type="submit" name="button_1" value="Save" id="SubmitButton" />
+    @Html.HiddenFor(x => x.groups)
+}
+
+    <style>
+        table, thead, tr, td {
+            border: 1px solid gainsboro !important;
+            border-top: 1px solid gainsboro !important;
+        }
+        .tableTop {
+            border: 1px solid lightgray !important;
+        }
+        .table > thead > tr > th {
+            vertical-align: bottom;
+            border-bottom:none;
+        }
+        .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+            padding: 8px;
+            line-height: 1.42857143;
+            vertical-align: top;
+            border-top: none;
+        }
+    </style>
+

@@ -1,0 +1,109 @@
+﻿@model Estimating_Tool.View_Model.LineItemVM
+
+
+@using (Html.BeginForm("Create", "EstimateHeader"))
+{
+	@Html.AntiForgeryToken()
+
+	<div class="form-group">
+		<div class="col-md-10">
+			@Html.LabelFor(model => Model.LineItemTypeId)<br />
+
+			@Html.DropDownListFor(m => m.LineItemTypeId, Model.LineItemTypeId, new { @class = "dropdownSearch", @title = "Select LineItemType", @id = "LineItemTypeId" })
+			@Html.HiddenFor(model => Model.LineItemTypeId)
+			@Html.ValidationMessageFor(model => model.LineItemTypeId, "", new { @class = "text-danger" })
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-md-10">
+			@Html.LabelFor(model => Model.LineItemGroupIdList)<br />
+
+			@Html.DropDownListFor(m => m.LineItemGroupIdList, Model.LineItemGroupIdList, new { @class = "dropdownSearch", @title = "Select LineItemGroup", @id = "LineItemGroupId" })
+			@Html.HiddenFor(model => Model.LineItemGroupId)
+			<button style="background-color:darkslategray; color:aliceblue">+</button>
+			@Html.ValidationMessageFor(model => model.LineItemGroupIdList, "", new { @class = "text-danger" })
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-md-10">
+			@Html.LabelFor(model => Model.LineItemId)<br />
+
+			@Html.DropDownListFor(m => m.LineItemId, Model.LineItemId, new { @class = "dropdownSearch", @title = "Select LineItem", @id = "LineItemId" })
+			@Html.HiddenFor(model => Model.LineItemId)
+			<button style="background-color:darkslategray; color:aliceblue">+</button>
+			@Html.ValidationMessageFor(model => model.LineItemId, "", new { @class = "text-danger" })
+		</div>
+	</div>
+
+
+
+
+
+
+}
+
+@section Scripts{
+	<script>
+		$('#LineItemTypeId').change(function () {
+			var lineItemTypeId = $('#LineItemTypeId').val();
+			$('#LineItemGroupId').selectpicker({ title: 'Select LineItemGroup' }).selectpicker('render');
+			$.ajax({
+				url: '../LineItem/updateLineItemGroupList',
+				type: 'Get',
+				dataType: 'JSON',
+				data: { LineItemTypeId: lineItemTypeId },
+				success: function (result) {
+					var proList = $('#LineItemGroupId');
+					proList.find('option').remove().end();
+					var counter = 0;
+					$.each(result, function () {
+						proList.append('<option Value =' + result[counter].Value + ' >' + result[counter].Text + '</option > ');
+						counter++;
+					});
+					$('.dropdownSearch').selectpicker('refresh');
+				}
+			});
+
+
+		});
+	</script>
+
+	<script>
+		$('#LineItemGroupId').change(function () {
+			var lineItemGroupId = $('#LineItemGroupId').val();
+			$('#LineItemId').selectpicker({ title: 'Select LineItem' }).selectpicker('render');
+			$.ajax({
+				url: '../LineItem/updateLineItemList',
+				type: 'Get',
+				dataType: 'JSON',
+				data: { LineItemGroupId: lineItemGroupId },
+				success: function (result) {
+					var proList = $('#LineItemId');
+					proList.find('option').remove().end();
+					var counter = 0;
+					$.each(result, function () {
+						proList.append('<option Value =' + result[counter].Value + ' >' + result[counter].Text + '</option > ');
+						counter++;
+					});
+					$('.dropdownSearch').selectpicker('refresh');
+				}
+			});
+
+
+		});
+	</script>
+
+	<script>
+
+		$('.dropdownSearch').selectpicker({
+			liveSearch: true,
+			showSubtext: true,
+			size: 8,
+			virtualScroll: true
+		});
+
+
+	</script>
+}

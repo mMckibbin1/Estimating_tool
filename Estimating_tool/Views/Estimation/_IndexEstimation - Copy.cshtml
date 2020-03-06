@@ -1,0 +1,106 @@
+﻿@model Estimating_Tool.View_Model.ParentEstimation
+@{
+    ViewBag.Title = "View";
+}
+
+<h2>View</h2>
+@using (Html.BeginForm("Create", "Estimation"))
+{
+@*<table class="table">*@
+	@*@foreach (var items in Model.groups)
+	{
+		<tr style="font-size:large">
+			<th>@Html.DisplayFor(x => items.LineItemTypeGroupStr)</th>
+			<th>Tasks</th>
+			<th>Duration</th>
+			<th>Contingency</th>
+			<th>Notes</th>
+		</tr>
+		foreach (var lineitems in Model.estimationVMs)
+		{
+			if (lineitems.LineItem.LineItemGroupId == items.LineItemTypeGroupId)
+			{
+				<tr class="hidden_table">
+					<td>@Html.DisplayFor(x => lineitems.LineItem.LineItemStr)</td>
+					<td>@Html.EditorFor(x => lineitems.LineItem.LineItemStr)</td>
+					<td>@Html.EditorFor(x => lineitems.Duration)</td>
+					<td>@Html.EditorFor(x => lineitems.estimateHeader.contingencyDefault.ContingencyDefaultInt)</td>
+					<td>@Html.EditorFor(x => lineitems.Note)</td>
+
+				</tr>
+			}
+		}
+
+				<tr class="hidden_table">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td style="position:center">
+						<h4>Section Total: </h4></td>
+					<td>@Html.EditorFor(x=>items.LineItemTypeGroupId, new { @input_type = "number", min = "0.01", step = "0.01", max = "2500", value = "25.67" })</td>
+				</tr>
+			
+		}
+</table>*@
+<table class="table">
+    @foreach (var items in Model.groups)
+    {
+    <tr>
+        @*<th>@Html.DisplayFor(x => items.LineItemTypeGroupStr)</th>*@
+        <th>Tasks</th>
+        <th>Duration</th>
+        <th>Contingency</th>
+        <th>Notes</th>
+    </tr>
+    <tr>
+        <th><button class="testtt">@Html.DisplayFor(x => items.LineItemTypeGroupStr)</button></th>
+    </tr>
+        for (int i = 0; i < Model.estimationVMs.Count(); i++)
+        {
+            if (Model.estimationVMs[i].group.LineItemTypeGroupId == items.LineItemTypeGroupId)
+            {
+	<tr class="eah">
+		<td>@Html.DisplayFor(x => x.estimationVMs[i].LineItem.LineItemStr)</td>
+		<td>@Html.EditorFor(x => x.estimationVMs[i].Duration)</td>
+		<td>@Html.EditorFor(x => x.estimationVMs[i].Rate)</td>
+		<td>@Html.EditorFor(x => x.estimationVMs[i].Note)</td>
+		<td>@Html.EditorFor(x => x.estimationVMs[i].Note)</td>
+
+	</tr class="eah">
+                @Html.HiddenFor(x => x.estimationVMs[i].LineItem)
+                @Html.HiddenFor(x => x.estimationVMs[i].LineItemId)
+                @Html.HiddenFor(x => x.estimationVMs[i].estimateHeader)
+                @Html.HiddenFor(x => x.estimationVMs[i].EstimateHeaderId)
+                @Html.HiddenFor(x => x.estimationVMs[i].Id)
+            }
+        }
+    }
+</table>
+    <input type="submit" value="Save" id="SubmitButton" />
+}
+
+<style>
+    .eah {
+        display: none;
+        overflow: visible;
+        padding: 0 18px;
+    }
+</style>
+
+<script>
+    var coll = document.getElementsByClassName("testtt");
+var i;
+    coll.
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+      var collapse-content = this.nextElementSibling;
+      if (collapse-content.style.display === "block") {
+          collapse-content.style.display = "none";
+    } else {
+          collapse-content.style.display = "block";
+    }
+  });
+}
+</script>
+

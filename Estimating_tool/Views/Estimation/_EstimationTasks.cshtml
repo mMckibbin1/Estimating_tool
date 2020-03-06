@@ -1,0 +1,238 @@
+﻿
+@model Estimating_Tool.View_Model.ParentEstimation
+@{
+    ViewBag.Title = "View";
+
+    int listTotal = 0;
+}
+<style>
+    table {
+        width: 100%;
+    }
+
+    td {
+        width: 25%;
+    }
+
+    th {
+        width: 25%
+    }
+</style>
+
+<h2>Specific Estimations</h2>
+@using (Html.BeginForm("Create", "Estimation", FormMethod.Post))
+{
+    //getting a list of lineitem names to be used as headings for each table
+    string[] TaskHeadings = Model.SpecificTasks.Select(x => x.LineItem.LineItemStr).Distinct().ToArray();
+    foreach (var item in TaskHeadings)
+    {
+        bool Hidden = true;//used to make first row hidden has this will be the blank row sent from the controller
+
+        //this string is used for the table ID attribute and is made up of the word table and the TaskHeading string with all spaces removed
+        string tableID = "table" + item.Replace(" ", string.Empty);
+
+        //this string is made up from the tableID attribute string and has single quotation-marks placed around it so that when it is passed into JS function call it is
+        //treated has a string and not an object
+        string ForJSFuction = "'" + "table" + item.Replace(" ", string.Empty) + "'";
+
+        string hiddenClassName = "'" + "Template" + item.Replace(" ", string.Empty) + "'";//string used for HiddenFor class name
+        <table class="table specificTask" id=@tableID>
+            <thead style="background-color: lightgray">
+                <tr class="tableTop">
+                    <th><h4>@item</h4></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th><img class="toggle flip" src="~/Content/img/DownArrow.png" style="width:35px; height:35px; float:right;" onclick="hide(@ForJSFuction,this)" /> </th>
+                </tr>
+                <tr>
+                    <th>Tasks</th>
+                    <th>Duration</th>
+                    <th>Contingency</th>
+                    <th>Notes</th>
+                    <th><img src="~/Content/img/Plus.png" type="button" class="pull-right" onclick="addRow(@ForJSFuction,@hiddenClassName);" style="width:45px; height:35px; float:right;" /></th>
+                </tr>
+            </thead>
+            <tbody style="background-color:gainsboro">
+                @for (int i = 0; i < Model.SpecificTasks.Count; i++)//iterate through all SpecificTasks
+                {
+                    if (Model.SpecificTasks[i].LineItem.LineItemStr == item)// if specific tasks name == table heading then add to table
+                    {
+                        if (Hidden)//if true will make row hidden this should be the blank specific tasks from the controller.
+                        {
+                            string className = "Template" + Model.SpecificTasks[i].LineItem.LineItemStr.Replace(" ", string.Empty);
+                            <tr hidden="hidden">
+                                <td>@Html.DisplayFor(x => x.SpecificTasks[i].LineItem.LineItemStr)</td>
+                                <td>
+                                    @Html.TextBoxFor(x => x.SpecificTasks[i].Duration, new { onchange = "totals()" })
+                                    @Html.ValidationMessageFor(x => x.SpecificTasks[i].Duration, "", new { @class = "text -danger" })
+                                </td>
+                                <td>@Html.EditorFor(x => x.SpecificTasks[i].ContingencyDefault)</td>
+                                <td>@Html.EditorFor(x => x.SpecificTasks[i].Note)</td>
+                                <td><span class="glyphicon glyphicon-remove-sign" style="color:red;font-size:25px; float:right;" onclick="deleteRow(this)"></span></td>
+
+                                @Html.HiddenFor(x => x.SpecificTasks[i].group, new { @class = className })
+                                @Html.HiddenFor(x => x.SpecificTasks[i].Id, new { @class = className + " HiddenId" })
+                                @Html.HiddenFor(x => x.SpecificTasks[i].LineItem, new { @class = className })
+                                @Html.HiddenFor(x => x.SpecificTasks[i].LineItemId, new { @class = className })
+                                @Html.HiddenFor(x => x.SpecificTasks[i].LineItemType, new { @class = className })
+                                @Html.HiddenFor(x => x.SpecificTasks[i].LineItemTypeGroupId, new { @class = className })
+                                @Html.HiddenFor(x => x.SpecificTasks[i].LineItemTypeId, new { @class = className })
+                                @Html.HiddenFor(x => x.SpecificTasks[i].estimateHeader, new { @class = className })
+                                @Html.HiddenFor(x => x.SpecificTasks[i].EstimateHeaderId, new { @class = className })
+                                @Html.HiddenFor(x => x.SpecificTasks[i].LineItem.LineItemId, new { @class = className })
+                            </tr>
+                            Hidden = false;//after first blank row is made all other rows in the table boby should be shown to user.
+
+
+
+
+
+                        }
+                        else
+                        {//all oter rows in table are not hidden
+                            <tr>
+                                <td>@Html.DisplayFor(x => x.SpecificTasks[i].LineItem.LineItemStr)</td>
+                                <td>
+                                    @Html.TextBoxFor(x => x.SpecificTasks[i].Duration, new { onchange = "totals()" })
+                                    @Html.ValidationMessageFor(x => x.SpecificTasks[i].Duration, "", new { @class = "text-danger" })
+                                </td>
+                                <td>@Html.EditorFor(x => x.SpecificTasks[i].ContingencyDefault)</td>
+                                <td>@Html.EditorFor(x => x.SpecificTasks[i].Note)</td>
+                                <td><span class="glyphicon glyphicon-remove-sign" style="color:red; font-size:25px; float:right;" onclick="deleteRow(this)"></span></td>
+                                @Html.HiddenFor(x => x.SpecificTasks[i].group)
+                                @Html.HiddenFor(x => x.SpecificTasks[i].Id, new { @class = "HiddenId" })
+                                @Html.HiddenFor(x => x.SpecificTasks[i].LineItem)
+                                @Html.HiddenFor(x => x.SpecificTasks[i].LineItemId)
+                                @Html.HiddenFor(x => x.SpecificTasks[i].LineItemType)
+                                @Html.HiddenFor(x => x.SpecificTasks[i].LineItemTypeGroupId)
+                                @Html.HiddenFor(x => x.SpecificTasks[i].LineItemTypeId)
+                                @Html.HiddenFor(x => x.SpecificTasks[i].estimateHeader)
+                                @Html.HiddenFor(x => x.SpecificTasks[i].EstimateHeaderId)
+                                @Html.HiddenFor(x => x.SpecificTasks[i].LineItem.LineItemId)
+                                @Html.ValidationMessage(Model.SpecificTasks[i].Duration.ToString())
+                            </tr>
+
+
+                        }
+
+                        listTotal++;
+
+
+
+
+                    }
+                }
+            </tbody>
+
+            @*//Html.Hidden(listTotal.ToString(), listTotal.ToString(), new { @id = "count" });*@
+
+        </table>
+    }
+    <input type="submit" name="button_1" value="Save" id="SubmitButton" />
+    @Html.HiddenFor(x => x.groups)
+    <div style="padding-top:10px;">
+        <label>Total: </label>
+        <input type="text" id="totalAnswer" />
+    </div>
+    <div typeof="hidden" id="RemovedRows"></div>
+    <div id="inputTotals" style="padding-top:20px">
+        <table class="table" id="speificTotals">
+            <tr><th><h4>Totals Break Down</h4></th></tr>
+            <tr>
+                <td>
+                    <label>Create work items in the code repository: </label>
+                </td>
+                <td>
+                    <input type="text" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Code: </label>
+                </td>
+                <td>
+                    <input type="text" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Logging: </label>
+                </td>
+                <td>
+                    <input type="text" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Database Scripts: </label>
+                </td>
+                <td>
+                    <input type="text" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Reporting Changes: </label>
+                </td>
+                <td>
+                    <input type="text" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>SSIS package changes: </label>
+                </td>
+                <td>
+                    <input type="text" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>New Jobs on Database: </label>
+                </td>
+                <td>
+                    <input type="text" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Updates to nightly extract: </label>
+                </td>
+                <td>
+                    <input type="text" />
+                </td>
+            </tr>
+        </table>
+    </div>
+}
+
+<style>
+    .toggle {
+        -moz-transition: transform 1s;
+        -webkit-transition: transform 1s;
+        transition: transform 1s;
+    }
+
+    .flip {
+        transform: rotate(-180deg);
+    }
+</style>
+
+<script>
+      //function to find and change numbers found in a string.
+    //uses length of list and increase it by one each time the function is run to increase the number replace by one
+    var numberstore = @listTotal;
+    function getnumbers(id,name) {
+        var r = /\d+/;
+        var startID = id
+        var startName = name
+        var foundNumbersID = startID.match(r);
+        var foundNumbersName = startName.match(r);
+        var newStringID = startID.replace(foundNumbersID, numberstore);
+        var newStringName = startName.replace(foundNumbersName, numberstore);
+
+        var obj = { id: newStringID, name: newStringName }
+        return obj;
+    }
+</script>

@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Estimating_Tool.Models.Currency>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@using (Html.BeginForm())
+{
+    @Html.DropDownList("searchString", (IEnumerable<SelectListItem>)ViewBag.DropdownOptions, new { @class = "dropdownSearch", @id = "SearchCurrencyName", @title = "Search Currency Name" })
+    <input type="submit" value="search" id="SubmitButton" />
+    <input type="button" value="Clear" id="clearButton" onclick="ClearFields()" />
+}
+
+@if (TempData["RecordAdded"] != null)
+{
+    <div class="AllGood">
+        @TempData["RecordAdded"]
+    </div>
+}@if (TempData["RecordEdited"] != null)
+{
+    <div class="AllGood">
+        @TempData["RecordEdited"]
+    </div>
+}@if (TempData["RecordDeleted"] != null)
+{
+    <div class="AllGood">
+        @TempData["RecordDeleted"]
+    </div>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Currencyid", "Index", new { sortOrder = ViewBag.CurrencyIdSortParm, currentFilter = ViewBag.currentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("CurrencyName", "Index", new { sortOrder = ViewBag.CurrencyNameSortParm, currentFilter = ViewBag.currentFilter})
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrencyId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrencyName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.CurrencyId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.CurrencyId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CurrencyId })
+            </td>
+        </tr>
+    }
+
+</table>
+@Html.Partial("_PagingPartial", Model) @*Paging*@
+
+@section Scripts{
+    <script>
+        selectdropdown(".dropdownSearch")
+    </script>
+    <script>
+        function ClearFields() {
+            document.getElementById('SearchCurrencyName').value = ""; //sets the SearchBox textbox to value of null (clears it)
+            document.getElementById("SubmitButton").click(); //Applies the filter of null by clicking the submit button automatically
+        }
+    </script>
+}

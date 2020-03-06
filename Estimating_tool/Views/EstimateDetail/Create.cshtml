@@ -1,0 +1,60 @@
+﻿@model Estimating_Tool.View_Model.EstimateDetailsVM
+
+@{
+				/**/
+
+				ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+	<div class="form-horizontal">
+		<h4>EstimateDetail</h4>
+		<hr />
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+		<div class="form-group">
+			@Html.LabelFor(model => model.EstimateHeaderId)
+
+			@Html.DropDownListFor(model => model.EstimateHeaderId, Model.EstimateNameList, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.EstimateHeaderId, "", new { @class = "text-danger" })
+
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.LineItemId)
+
+			@Html.DropDownListFor(model => model.LineItemId, Model.LineItemTypeList, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.LineItemId, "", new { @class = "text-danger" })
+
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.Estimate)
+
+			@Html.EditorFor(model => model.Estimate, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.Estimate, "", new { @class = "text-danger" })
+
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.Note)
+
+			@Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
+
+		</div>
+
+
+		<div class="form-actions no-color">
+			<input type="submit" value="Create" class="btn btn-default" /> |
+			@Html.ActionLink("Back to List", "Index")
+		</div>
+
+	</div>
+}
+
+

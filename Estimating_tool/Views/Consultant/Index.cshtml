@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Estimating_Tool.View_Model.ConsultantIndex>
+
+@{
+    ViewBag.Title = "Consultants";
+}
+
+@*DataTables JS and CSS files are needed for the table formatting and functionality*@
+<link href="~/DataTables/datatables.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/DataTables/datatables.min.js"></script>
+<script src="~/Scripts/TableSort.js"></script>
+
+<h2>Consultants</h2>
+
+@*when a Consultant is created, updated or deleted, the relevant controler sets the TempData value to display the correct feedback to the user*@
+@if (TempData["ConsultantMessage"] != null)
+{
+    <div class="AllGood">
+        @TempData["ConsultantMessage"]
+    </div>
+}
+
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+<table class="display myTable">
+    <thead>
+        <tr>
+            <th>
+                <p>Username</p>
+            </th>
+            <th>
+                <p>First Name</p>
+            </th>
+            <th>
+                <p>Last Name</p>
+            </th>
+            <th>
+                <p>Manager</p>
+            </th>
+            <th>
+                <p>Actions</p>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Consultant.Username)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Consultant.Firstname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Consultant.Lastname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Manager)
+
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Consultant.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Consultant.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

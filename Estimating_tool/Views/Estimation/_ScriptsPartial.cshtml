@@ -1,0 +1,281 @@
+﻿<script>
+    function showTotals() {
+        var x = document.getElementsByClassName('totals');
+        $('#totalsArrow').closest('img').toggleClass('flip')
+        if (x[0].style.display === 'block') {
+            x[0].style.display = 'none';
+
+        } else {
+            x[0].style.display = 'block';
+        }
+    }
+</script>
+
+<script>
+    //
+    var maxid = 0;
+
+    //function getTemplateRow(row) {
+    //    var rows = document.getElementsByClassName(row);
+    //    var clone = rows[1].cloneNode(true);
+    //    var inputs = clone.getElementsByTagName('input');
+    //    for (var i = 0; i < inputs.length; i++) {
+    //        inputs[i].value = "";
+    //    }
+    //    clone.id = "";
+    //    clone.style.display = "";
+    //    return clone;
+    //}
+</script>
+
+<script>
+    //function to calculate the overall duration and costs for a project and is displayed in the totals div at the bottom of the page.
+    function OverallTotals() {
+        var table = document.getElementById('totals');
+
+        var genDurationInputs = document.getElementsByClassName('DurationTotal');//getting all duration inputs for General Estimations in the totals table
+        var genCostInputs = document.getElementsByClassName('CostTotal');//getting all total inputs for General Estimations in the totals table 
+        var devDurationInputs = document.getElementsByClassName('DevDuration');//getting the development work duration textbox in the totals table
+        var devCostInputs = document.getElementsByClassName('DevCost'); //getting the development work cost textbox in the totals table
+        var durationtotal = 0;
+        var CostTotal = 0;
+
+        //adding all the general durations together
+        for (var i = 0; i < genDurationInputs.length; i++) {
+            durationtotal += Number(genDurationInputs[i].value);
+        }
+
+        //adding development work duration to overall duration
+        durationtotal += Number(devDurationInputs[0].value);
+
+        //adding all general costs together 
+        for (var i = 0; i < genCostInputs.length; i++) {
+            CostTotal += Number(genCostInputs[i].value);
+        }
+        //adding development work cost to total cost
+        CostTotal += Number(devCostInputs[0].value);
+
+        var DurationOverall = document.getElementById('overallTotalDuration');
+        var CostOverall = document.getElementById('overallTotalCost');
+
+        //setting overall boxes to display the duration and cost totals
+        DurationOverall.setAttribute('value', durationtotal);
+        CostOverall.setAttribute('value', CostTotal);
+
+    }
+
+          //function to calulate the overall total of the specificTasks and for each table on the Project Speific Tasks tab individually
+    function totals() {
+
+        //getting all tables for specific tasks and the input that will display the totals
+        var tables = document.getElementsByClassName('table specificTask');
+        var divTotals = document.getElementById('inputTotals');
+        var totalInputs = divTotals.getElementsByTagName('input');
+        var duration = 0;
+        var rate =  @Model.ParentEstimation.SpecificTasks[0].estimateHeader.project.Rate;//getting rate set in project table
+
+        //go through each table get the value of each duration input in the table
+        for (var i = 0; i < tables.length; i++) {
+            var tableRows = new Array();
+            var tableTotal = 0;
+
+            //getting each row that is not hidden and adding it to the tableRows array.
+            for (var rowcount = 0; rowcount < tables[i].tBodies[0].rows.length; rowcount++) {
+                if (tables[i].tBodies[0].rows[rowcount].getAttribute('hidden') != 'hidden') {
+                    tableRows.push(tables[i].tBodies[0].rows[rowcount]);
+                }
+            }
+            //going through each row in table row array and adding its duration value to total duration and table total.
+            for (var count = 0; count < tableRows.length; count++) {
+                var inputsinRow = tableRows[count].getElementsByTagName('input');
+                duration += Number(inputsinRow[0].value);
+                tableTotal += Number(inputsinRow[0].value);
+            }
+
+            totalInputs[i].setAttribute('value', (tableTotal * rate).toFixed(2));//using table total to set individual table total.
+        }
+        var total = (duration * rate).toFixed(2);//calulating overall total for specificTasks
+        var input = document.getElementById('totalAnswer');
+        input.setAttribute('value', total);
+
+        //setting development work totals in totals table
+        var totalTable = document.getElementById('totals');
+        var devInputsDuration = totalTable.getElementsByClassName('DevDuration');
+        var devInputsCost = totalTable.getElementsByClassName('DevCost');
+
+        devInputsDuration[0].setAttribute('value', duration);
+        devInputsCost[0].setAttribute('value', total);
+
+        OverallTotals();//updating overall totals in totals table
+    }
+
+    //function to calculate duration and cost totals for General Estimations
+    function genTotals() {
+        var tables = document.getElementsByClassName('table general');//getting all tables for General Estimations 
+        var totalsTable = document.getElementById('totals');//getting totals table
+        var totalTableInputsDuration = totalsTable.getElementsByClassName('DurationTotal');//getting all duration total inputs for general estimates in totals table
+        var totalTableInputsCost = totalsTable.getElementsByClassName('CostTotal');;//getting all cost total inputs for general estimates in totals table
+
+        //iterating through each table
+        for (var i = 0; i < tables.length; i++) {
+            var tableRows = tables[i].tBodies[0].rows;
+            var tableTotal = 0;
+            var tableTotalCost = 0;
+
+            //iterating through each row in the table
+            for (var j = 0; j < tableRows.length; j++) {
+                var rowInputs = tableRows[j].getElementsByTagName('input');//gettting inputs in table row
+                var duration = Number(rowInputs[0].value);
+                tableTotal += Number(rowInputs[0].value);//adding rows duration to overall table duration
+                var rowRate = Number(rowInputs[1].value);
+                var total = (duration * rowRate).toFixed(2);//using local set duration with project to get total
+                tableTotalCost += Number(total);//saving total for overall table total
+                rowInputs[3].setAttribute('value', total);//displaying cost total in total textbox at end of table row
+            }
+
+            totalTableInputsDuration[i].setAttribute('value', tableTotal);//setting total table duration into the totals table
+            totalTableInputsCost[i].setAttribute('value', tableTotalCost);
+
+            OverallTotals();//running to update totals table overall duration and costs values
+        }
+    }
+
+        $(document).ready(function () {
+            totals();
+            genTotals();
+        });
+</script>
+
+
+
+<script>selectdropdown(".dropdownSearch");</script>@*calls the selectdropdown script to make the dropdowns searcable*@
+
+<script>
+    $(document).ready(function () {
+        $("#EstimateTypeId").prop('disabled', true);
+        $("#EstimateStatusId").prop('disabled', true);
+        $("#ProjectId").prop('disabled', true);
+        $("#UnitofMeasureId").prop('disabled', true);
+        $("#CommercialTypeId").prop('disabled', true);
+        $("#ContingencyDefaultId").prop('disabled', true);
+        $("#CustomerId").prop('disabled', true);
+    })
+    $("#Edit").click(function () {
+        $("#EstimateName").removeAttr("readonly");
+        $("#Value").removeAttr("readonly");
+        $("#EstimateTypeId").prop('disabled', false);
+        $("#EstimateStatusId").prop('disabled', false);
+        $("#ProjectId").prop('disabled', false);
+        $("#UnitofMeasureId").prop('disabled', false);
+        $("#CommercialTypeId").prop('disabled', false);
+        $("#ContingencyDefaultId").prop('disabled', false);
+        $("#CustomerId").prop('disabled', false);
+    });
+    $("#Lock").click(function () {
+        $("#EstimateTypeId").prop('disabled', true);
+        $("#EstimateStatusId").prop('disabled', true);
+        $("#ProjectId").prop('disabled', true);
+        $("#UnitofMeasureId").prop('disabled', true);
+        $("#CommercialTypeId").prop('disabled', true);
+        $("#ContingencyDefaultId").prop('disabled', true);
+        $("#CustomerId").prop('disabled', true);
+        $("#EstimateName").prop('readonly', true);
+        $("#Value").prop('readonly', true);
+    });
+
+    $('#submitHeader').click(function () {
+        $("#EstimateTypeId").prop('disabled', false);
+        $("#EstimateStatusId").prop('disabled', false);
+        $("#ProjectId").prop('disabled', false);
+        $("#UnitofMeasureId").prop('disabled', false);
+        $("#CommercialTypeId").prop('disabled', false);
+        $("#ContingencyDefaultId").prop('disabled', false);
+        $("#CustomerId").prop('disabled', false);
+    });
+</script>
+
+<script>@*hides tables on both general and specific eatimate tasks as well as spins arrows image by adding and remove class 'flip'*@
+    function hide(tableId, image) {
+        var t = document.getElementById(tableId);
+        var tbody = t.tBodies[0];
+        var trarry = t.getElementsByTagName('tr');
+        var tr = trarry[1];
+        if (tbody.getAttribute('hidden') == "hidden") {
+
+            tbody.removeAttribute("hidden")
+            tr.removeAttribute("hidden")
+            $(image).toggleClass('flip');
+        }
+        else {
+            tbody.setAttribute("hidden", "hidden")
+            tr.setAttribute("hidden", "hidden")
+            $(image).toggleClass('flip');
+        }
+    }
+</script>
+
+<script>
+    $('.table tbody .Quantity').val('');
+
+</script>
+
+<script>
+    //function to add row to a table on Project Specific Tasks tab
+    //takes in the id of the table to add to and the class name of the hiddenFor inputs for related data.
+    function addRow(tableID, HiddenForClass) {
+        var table = document.getElementById(tableID);
+        var rowcopy = table.rows[2];//copy the thrid row of table which is a hidden blank row
+        var clone = rowcopy.cloneNode(true)
+        clone.removeAttribute('hidden');
+
+        var inputs = clone.getElementsByTagName('input')
+
+        //seting the attributes for the three visible inputs in the copyied row
+        for (var i = 0; i < 3; i++) {
+            var newAttribute = getnumbers(inputs[i].id, inputs[i].name);//getting new id and name of input
+            inputs[i].value = "";
+            inputs[i].id = newAttribute.id;
+            inputs[i].name = newAttribute.name;
+            inputs[i].setAttribute('aria-describedby', newAttribute.id+'-error');
+
+        }
+        var hiddenFor = clone.getElementsByClassName(HiddenForClass);//getting all hiddenFors for copied row
+        for (var i = 0; i < hiddenFor.length; i++) {
+            var newAttribute = getnumbers(hiddenFor[i].id, hiddenFor[i].name);//getting new id and name of hiddenFor
+            hiddenFor[i].id = newAttribute.id;
+            hiddenFor[i].name = newAttribute.name;
+            hiddenFor[i].classList.remove();
+        }
+        //making copy of validationFor for Duration
+        var validationSpan = clone.getElementsByClassName('field-validation-valid text -danger');
+        var spanNewValues = getnumbers(validationSpan[0].id, validationSpan[0].getAttribute('data-valmsg-for'));
+        validationSpan[0].setAttribute('data-valmsg-for', spanNewValues.name);
+        table.tBodies[0].appendChild(clone);
+
+        numberstore++;//incrementing number used to set index of inputs in list.
+    }
+
+    //function to delete row in a table and to delete database row that the delete row in the table represents
+    function deleteRow(button) {
+        if (confirm('Delete Row')) {
+            var row = button.parentNode.parentNode;// getting to row that contains delete button pressed
+            var inputs = row.getElementsByTagName('input');
+            var estimateID = inputs[4].value;//getting hiddenFor ID of estimate row that is being delete to be used in ajax request to server
+            var r = /\d+/;
+            var i = inputs[4].name.match(r);//getting index of estimate in the specificTasks List from the name Attribute of the input.
+            var insertNode = document.getElementById('RemovedRows');//getting div to insert into
+            var hiddenfor = '<input id="SpecificTasks_' + i + '_" name="SpecificTasks[' + i + ']" type="hidden" value =""/>';//creating hidden input to keep positions in list index
+            insertNode.innerHTML = hiddenfor;
+
+            //ajax request to remove database entry that row in table represented
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("RemoveRecord", "Estimation")",
+                data: { id: estimateID },
+                dataType: "JSON",
+            });
+            row.remove();
+            totals();//recalculating totals now row has been removed.
+        }
+    }
+</script>

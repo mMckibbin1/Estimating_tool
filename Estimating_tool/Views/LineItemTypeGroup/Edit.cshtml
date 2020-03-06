@@ -1,0 +1,87 @@
+﻿@model Estimating_Tool.Models.LineItemTypeGroup
+
+@{
+    ViewBag.Title = "Edit";
+   // var selectedLIneItemType = Model.selectedLIneItemType;
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>LineItemTypeGroup</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.LineItemTypeGroupId)
+    <div class="form-group">
+        @Html.LabelFor(model => model.LineItemType)
+        <br />
+        @Html.DropDownList("LineItemType", (IEnumerable<SelectListItem>)ViewBag.dropdownOptions, new { @class = "dropdownSearch", @id = "LineItemType" })
+        @Html.ValidationMessageFor(model => model.LineItemType, "", new { @class = "text-danger" })
+
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.LineItemTypeGroupStr)
+
+        @Html.EditorFor(model => model.LineItemTypeGroupStr, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.LineItemTypeGroupStr, "", new { @class = "text-danger" })
+
+    </div>
+
+    <div class="hidden">
+        @Html.LabelFor(model => model.CreatedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.CreatedDate.Date.GetDateTimeFormats()[4], new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CreatedDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="hidden">
+        @Html.LabelFor(model => model.CreatedBy, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.CreatedBy, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CreatedBy, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="hidden">
+        @Html.LabelFor(model => model.ModifiedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ModifiedDate.Date.GetDateTimeFormats()[4], new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ModifiedDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="hidden">
+        @Html.LabelFor(model => model.ModifiedBy, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ModifiedBy, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ModifiedBy, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+
+
+    <div class="form-actions no-color">
+        <input type="submit" value="Save" class="btn btn-default" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+}
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#LineItem [value= @ViewBag.DropDownSelected').attr('selected', 'true');
+        });
+    </script>
+
+    <script>
+        selectdropdown(".dropdownSearch")
+    </script>
+
+}
+

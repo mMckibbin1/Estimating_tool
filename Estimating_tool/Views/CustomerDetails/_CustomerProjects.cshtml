@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Estimating_Tool.View_Model.CustomerProjects>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    var project = ViewBag.page;
+}
+<style>
+    {
+        padding-right
+    }
+</style>
+
+@using PagedList.Mvc;
+@using PagedList;
+<div class="column">
+    <h2>Associated Projects</h2>
+    @using (Html.BeginForm())
+    {<table>
+         <thead>
+             <tr>
+                 <th style="padding:10px;">
+                     Project Name: @Html.TextBox("ProjectName",null,new { @class = "form-control" })
+                 </th>
+                 <th style="padding:10px;">
+                     Project Id: @Html.TextBox("ProjectID", null, new { @class = "form-control" })
+                 </th>
+                 <th style="padding:10px;">
+                     Atlas Id: @Html.TextBox("AtlasID", null, new { @class = "form-control" })
+                 </th>
+             </tr>
+         </thead>    
+    <tbody>
+        <tr>
+            <td style="padding-left:10px;">
+                <input type="submit" value="Filter" />
+            </td>
+        </tr>
+    </tbody>
+    </table>
+    }
+
+    <table id="tblData" class="table">
+        <thead>
+			<tr>
+				<th>
+					@Html.ActionLink("Project Name", "Details", new { SortOrder = ViewBag.NameSortParm, CurrentFillterProjectName = ViewBag.CurrentFillterProjectName, CurrentFillterProjectID = ViewBag.CurrentFillterProjectID, CurrentFilterAtlasID = ViewBag.CurrentFilterAtlasID }, new { title = "Sort by Project Name" })
+				</th>
+				<th>
+					@Html.ActionLink("Project ID", "Details", new { SortOrder = ViewBag.IDSort, CurrentFillterProjectName = ViewBag.CurrentFillterProjectName, CurrentFillterProjectID = ViewBag.CurrentFillterProjectID, CurrentFilterAtlasID = ViewBag.CurrentFilterAtlasID }, new { title = "Sort by Project ID" })
+				</th>
+				<th>
+					@Html.ActionLink("Atlas ID", "Details", new { SortOrder = ViewBag.AtlasIDSort, CurrentFillterProjectName = ViewBag.CurrentFillterProjectName, CurrentFillterProjectID = ViewBag.CurrentFillterProjectID, CurrentFilterAtlasID = ViewBag.CurrentFilterAtlasID }, new { title = "Sort by Atlas ID" })
+				</th>
+				<th>
+					@Html.ActionLink("Rate", "Details", new { SortOrder = ViewBag.Rate, CurrentFillterProjectName = ViewBag.CurrentFillterProjectName, CurrentFillterProjectID = ViewBag.CurrentFillterProjectID, CurrentFilterAtlasID = ViewBag.CurrentFilterAtlasID }, new { title = "Sort by Atlas ID" })
+				</th>
+				<th></th>
+			</tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var item in ViewBag.page)
+                {
+			<tr>
+				<td>
+					@item.projectName
+				</td>
+				<td>
+					@item.ProjectId
+				</td>
+				<td>
+					@item.ProAtlasID
+				</td>
+				<td>
+					@item.Rate
+				</td>
+
+				<td>
+					@Html.ActionLink("Details", "Details", "Projects", new { id = item.ProjectId, Return = "CustomerDetails" }, null)
+				</td>
+			</tr>
+                }
+            }
+        </tbody>
+    </table>
+    Page @(ViewBag.page.PageCount < ViewBag.page.PageNumber ? 0 : ViewBag.page.PageNumber) of @ViewBag.page.PageCount
+
+    @Html.PagedListPager((IPagedList)ViewBag.page, page => Url.Action("Details", new { page, SortOrder = ViewBag.CurrentSort, CurrentFillterProjectName = ViewBag.CurrentFillterProjectName, CurrentFillterProjectID = ViewBag.CurrentFillterProjectID, CurrentFilterAtlasID = ViewBag.CurrentFilterAtlasID }))
+</div>
+
+
+
+

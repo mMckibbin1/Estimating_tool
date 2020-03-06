@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Estimating_Tool.View_Model.TeamIndex>
+
+@{
+                /**/
+
+                ViewBag.Title = "Teams";
+}
+<link href="~/DataTables/datatables.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/DataTables/datatables.min.js"></script>
+
+<h2>Teams</h2>
+@if (TempData["TeamMessage"] != null)
+{
+    <div class=" AllGood">
+        @TempData["TeamMessage"]
+    </div>
+
+}
+
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+<table class="display myTable">
+    <thead>
+        <tr>
+            <th>
+                <p>Team Name</p>
+            </th>
+            <th>
+                <p>Manager</p>
+            </th>
+            <th><p>Actions</p></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.team.TeamName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ManagerName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.team.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.team.Id })
+                </td>
+            </tr>
+
+        }
+    </tbody>
+
+</table>
+<script src="~/Scripts/TableSort.js"></script>

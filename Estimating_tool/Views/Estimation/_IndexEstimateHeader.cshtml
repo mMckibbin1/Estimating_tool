@@ -1,0 +1,145 @@
+﻿@model Estimating_Tool.View_Model.EstimateHeaderVM
+@{
+    ViewBag.Title = "Edit";
+}
+
+<head>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Content/validate")
+    @Scripts.Render("~/Content/bootstrap-SelectPartailViews")
+    @Styles.Render("~/Content/bootstrap-SelectStyle")
+</head>
+
+<h2>Estimate Header</h2>
+@using (Html.BeginForm("edit", "Estimation"))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+
+    <br />
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.LabelFor(model => model.EstimateName)
+            @Html.EditorFor(model => model.EstimateName, new { htmlAttributes = new { @class = "form-control", @id = "EstimateName", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.EstimateName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.LabelFor(model => model.ProjectId)<br />
+
+            @Html.DropDownListFor(m => m.ProjectId, Model.ProjectIdList, "Select Project", new { @class = "dropdownSearch", @id = "ProjectId", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.LabelFor(model => model.CustomerId)<br />
+
+            @Html.DropDownListFor(m => m.CustomerId, Model.CustomerIdList, "Select Customer", new { @class = "dropdownSearch", @id = "CustomerId", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.LabelFor(model => model.EstimateTypeId)<br />
+
+            @Html.DropDownListFor(m => m.EstimateTypeId, Model.EstimateTypeIdList, new { @class = "dropdownSearch", @id = "EstimateTypeId", @name = "EstitmateTypeId", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.EstimateTypeId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.LabelFor(model => model.EstimateStatusId)<br />
+
+            @Html.DropDownListFor(m => m.EstimateStatusId, Model.EstimateStatusIdList, new { @class = "dropdownSearch", @id = "EstimateStatusId", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.EstimateStatusId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.LabelFor(model => model.UnitofMeasureId)<br />
+
+            @Html.DropDownListFor(m => m.UnitofMeasureId, Model.UnitofMeasureIdList, "Select Unit of measure", new { @class = "dropdownSearch", @id = "UnitofMeasureId", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.UnitofMeasureId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.LabelFor(model => model.CommercialTypeId)<br />
+
+            @Html.DropDownListFor(m => m.CommercialTypeId, Model.CommercialTypeIdList, "Select Commercial Type", new { @class = "dropdownSearch", @id = "CommercialTypeId", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.CommercialTypeId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.LabelFor(model => model.ContingencyDefaultId)<br />
+
+            @Html.DropDownListFor(m => m.ContingencyDefaultId, Model.ContingencyDefaultIdList, "Select Contingency Default", new { @class = "dropdownSearch", @id = "ContingencyDefaultId", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.CommercialTypeId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class=" col-md-10">
+            @Html.LabelFor(modle => modle.CreatedBy)<br />
+
+            @Html.DisplayFor(x => x.CreatedBy)
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class=" col-md-10">
+            @Html.LabelFor(modle => modle.CreatedDate)<br />
+
+            @Html.DisplayFor(x => x.CreatedDate)
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class=" col-md-10">
+            @Html.LabelFor(modle => modle.ModifiedBy)<br />
+
+            @Html.DisplayFor(x => x.ModifiedBy)
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class=" col-md-10">
+            @Html.LabelFor(modle => modle.ModifiedDate)<br />
+
+            @Html.DisplayFor(x => x.ModifiedDate)
+        </div>
+    </div>
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+   
+    @Html.HiddenFor(x => x.id)
+    @Html.HiddenFor(x => x.CreatedBy)
+    @Html.HiddenFor(x => x.CreatedDate)
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" value="Edit" class="btn btn-default" id="Edit" />
+            <input type="submit" name="button_2" value="Save" class="btn btn-default" id="submitHeader"/>
+            <img src="~/Content/img/Lock.png" type="button" value="Lock" class="btn btn-default" id="Lock" style="width:75px; height:50px;" />
+        </div>
+    </div>
+    @Html.ActionLink("Back to List", "Index", "EstimateHeader", null, null)
+</div>
+}
+
+
+
+

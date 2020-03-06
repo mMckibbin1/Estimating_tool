@@ -1,0 +1,142 @@
+﻿@model Estimating_Tool.View_Model.LineItemDetail
+@{
+	ViewBag.Title = "SubmitLineItems";
+}
+
+<h2>SubmitLineItems</h2>
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+	<div class="form-horizontal">
+		<div class="form-group">
+			<div class="col-md-12">
+				<table id="theTable" class="table table-condensed table-hover">
+					<tr>
+						<th>
+							Line Item Type
+						</th>
+						<th>
+							Line Item Group
+						</th>
+						<th>
+							Line Item
+						</th>
+						<th>
+							Duration
+						</th>
+						<th>
+							Daily Rate
+						</th>
+						<th>
+							Total Amount
+						</th>
+					</tr>
+					@{
+						//To make unique Id
+						int i = 0;
+						foreach (var item in Model.LineItemDetails.ToList())
+						{
+
+							<tr id="templateRow">
+								<td>
+									@Html.DropDownList("LineItemType",
+													   (IEnumerable<SelectListItem>)ViewBag.LineItemType,
+													   "Select LineItemType", new { @id = "LineItemTypeId" })
+								</td>
+								<td>
+									@Html.DropDownList("LineItemGroup",
+																						   (IEnumerable<SelectListItem>)ViewBag.LineItemGroup,
+																						   "Select LineItemGroup", new {@id="LineItemGroupId" })
+								</td>
+								<td>
+									@Html.EditorFor(o => o.LineItemDetails[i].LineItemStr, new { @id = "lineItemStr_" + i })
+								</td>
+								<td>
+									@Html.EditorFor(o => o.LineItemDetails[i].Qty, new { @id = "Qty_" + i })
+								</td>
+								<td>
+									@Html.EditorFor(o => o.LineItemDetails[i].Price, new { @id = "Price_" + i })
+								</td>
+								<td>
+									@Html.EditorFor(o => o.LineItemDetails[i].TotalAmount, new { @id = "TotalAmount_" + i })
+								</td>
+								<td>
+									<input type="button" value="-" onclick="deleteRow()" style="width:40px; background-color:darkslategray; color:aliceblue"/>
+								</td>
+
+							</tr>
+							i++;
+						}
+					}
+				</table>
+
+				<button onclick="addRow();" type="button" style="width:140px; background-color:darkslategray; color:aliceblue">+</button>
+			</div>
+		</div>
+		<hr />
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10 text-center">
+				<input type="submit" value="Submit Line Items" class="btn" style="width:250px; position:relative; right:90px" />
+			</div>
+		</div>
+	</div>
+}
+
+@section Scripts{
+	<script>
+		$('.dropdownSearch').selectpicker({
+			liveSearch: true,
+			showSubtext: true,
+			size: 8,
+			virtualScroll: true
+		});
+	</script>
+
+	<script>
+		$('#LineItemTypeId').change(function () {
+			var lineItemTypeId = $('#LineItemTypeId').val();
+			$('#LineItemGroupId').selectpicker({ title: 'Select LineItemGroup' }).selectpicker('render');
+			$.ajax({
+				url: '../LineItem/updateLineItemGroupList',
+				type: 'Get',
+				dataType: 'JSON',
+				data: { LineItemTypeId: lineItemTypeId },
+				success: function (result) {
+					var proList = $('#LineItemGroupId');
+					proList.find('option').remove().end();
+					var counter = 0;
+					$.each(result, function () {
+						proList.append('<option Value =' + result[counter].Value + ' >' + result[counter].Text + '</option > ');
+						counter++;
+					});
+					$('.dropdownSearch').selectpicker('refresh');
+				}
+			});
+		});
+	</script>
+
+	<script>
+		var maxID = 0;
+		function getTemplateRow() {
+			var x = document.getElementById("templateRow").cloneNode(true);
+			x.id = "";
+			x.style.display = "";
+			return x;
+		}
+		function addRow() {
+			alert("Row Added.");
+			var t = document.getElementById("theTable");
+			var rows = t.getElementsByTagName("tr");
+			var r = rows[rows.length-1];
+			r.parentNode.append(getTemplateRow(), r);
+		}
+		function deleteRow() {
+			alert("Row Removed.");
+			//event.target will be the input element
+			var td = event.target.parentNode;
+			var tr = td.parentNode; //the row to be removed
+			tr.parentNode.removeChild(tr);
+		}
+	</script>
+}

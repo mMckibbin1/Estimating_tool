@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>@ViewBag.Title - Estimating Tool</title>
+	@Styles.Render("~/Content/css")
+	@Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+	<link rel="stylesheet" href="~/Content/Site.css">
+	<div class="content">
+		<div class="content-inside">
+			<div class="navbar navbar-inverse navbar-fixed-top">
+				<div class="container">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						@Html.ActionLink("V1", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", style = "color: white" })
+					</div>
+					<div class="navbar-collapse collapse">
+						<ul class="nav navbar-nav">
+							<li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { style = "color: white" })</li>
+							<li class="dropdown">
+								<a href="@Url.Action("Index","Customers")" class="dropbtn" style="color:aliceblue">Customers</a>
+								<div class="dropdown-content">
+									<a href="@Url.Action("Create","Customers")">Create</a>
+									<a href="@Url.Action("Index","Customers")">Index</a>
+								</div>
+							</li>
+							<li class="dropdown">
+								<a href="@Url.Action("Index","Projects")" class="dropbtn" style="color:aliceblue">Projects</a>
+								<div class="dropdown-content">
+									<a href="@Url.Action("Create","Projects")">Create</a>
+									<a href="@Url.Action("Index","Projects")">Index</a>
+								</div>
+							</li>
+							<li class="dropdown">
+								<a href="@Url.Action("Index","EstimateHeader")" class="dropbtn" style="color:aliceblue">Estimates</a>
+								<div class="dropdown-content">
+									<a href="@Url.Action("Create","EstimateHeader")">Create</a>
+									<a href="@Url.Action("Index","EstimateHeader")">Index</a>
+									@*<a href="@Url.Action("Index","EstimateDetail")">Details</a>
+                                    <a href="@Url.Action("Index/1", "Estimation")">Estimation</a>*@
+								</div>
+							</li>
+						</ul>
+						<ul class="nav navbar-nav" style="float:right; margin-right:10px; list-style:none;">
+							<li class="dropdown">
+								<a class="dropbtn" style="color:aliceblue;">Admin</a>
+								<div class="dropdown-content">
+									<a href="@Url.Action("Index","ContingencyDefault")">Contingency Default</a>
+									<a href="@Url.Action("Index","CommercialType")">Commercial Type</a>
+									<a href="@Url.Action("Index","Currency")">Currency</a>
+									<a href="@Url.Action("Index","LineItem")">Line Item</a>
+									<a href="@Url.Action("Index","LineItemType")">Line Item Type</a>
+									<a href="@Url.Action("Index","LineItemTypeGroup")">Line Item Type Group</a>
+									<a href="@Url.Action("Index","Role")">Role</a>
+									<a href="@Url.Action("Index","UnitOfMeasure")">Unit Of Measure</a>
+									<a href="@Url.Action("Index","EstimateType")">Estimate Type</a>
+									<a href="@Url.Action("Index","EstimateStatus")">Estimate Status</a>
+									<a href="@Url.Action("Index","Admin")">Admin</a>
+								</div>
+							</li>
+							<li class="dropdown">
+								<img src="~/Content/img/Profile.png" class="dropbtn" style="color:aliceblue; width:40px; height:40px; position:relative; left:30px;"/>
+								<div class="dropdown-content">
+									<a href="@Url.Action("Index","Account")" style="background-color:darkslategray; color:aliceblue;">@User.Identity.Name</a>
+									<a href="@Url.Action("Settings","Home")">Settings</a>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="container body-content">
+				@RenderBody()
+				<hr />
+
+			</div>
+			@Scripts.Render("~/bundles/jquery")
+			@Scripts.Render("~/Content/validate")
+			@Scripts.Render("~/Content/bootstrap-Select")
+			@Styles.Render("~/Content/bootstrap-SelectStyle")
+			@RenderSection("scripts", required: false)
+		</div>
+	</div>
+
+
+	<footer class="footer">
+		<div class="row" style="padding-top: 15px;">
+			<div class="Footer_column1">
+				<p> </p>
+			</div>
+			<div class="Footer_column">
+				<a href="https://www.version1.com" class="v1triangle pull-right" style="position:relative; left:20px;">
+					<img src="~/Content/img/version1-triangle.png" width="70" height="70" />
+				</a>
+			</div>
+			<div class="Footer_column pull-left center-block" style="padding-top:40px; position:relative; left:60px;">
+				<span style="color:#ffffff;">©<strong> 2019 Version1. All rights reserved.</strong></span>
+
+			</div>
+			<div class="Footer_column" style="padding-top:40px; font:x-small; position:relative; left:50px;">
+				<a href="https://www.version1.com/terms-conditions/" style="color:aliceblue">Terms & Conditions</a>
+				<span style="color:#ffffff;">|</span>
+				<a href="https://www.version1.com/privacy-policy/" style="color:aliceblue">Privacy Policy</a>
+				<span style="color:#ffffff;">|</span>
+				<a href="https://www.version1.com/contact/" style="color:aliceblue">Contact Us</a>
+			</div>
+		</div>
+	</footer>
+
+</body>
+</html>
+<style>
+	.Footer_column {
+		float: left;
+		width: 25%;
+	}
+
+	.Footer_column1 {
+		float: left;
+		width: 12.5%;
+	}
+
+	.center {
+		text-align: center;
+		text-decoration-color: white;
+	}
+
+	.fnavbar ul li {
+		display: inline-block;
+		position: center;
+	}
+</style>
+
+
+

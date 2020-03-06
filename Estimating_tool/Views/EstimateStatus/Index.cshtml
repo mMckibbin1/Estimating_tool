@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Estimating_Tool.Models.EstimateStatus>
+
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@using (Html.BeginForm())
+{
+    @Html.DropDownList("searchString", (IEnumerable<SelectListItem>)ViewBag.DropdownOptions,new { @class = "dropdownSearch", @id = "SearchEstimateStatus",title="Search Estimate Status" })
+    <input type="submit" value="search" id="SubmitButton" />
+    <input type="button" value="Clear" id="clearButton" onclick="ClearFields()" />
+}
+
+<table class="table">
+    @*Table headers with sorting*@
+    <tr>
+        <th>
+            @Html.ActionLink("Id", "Index", new { sortOrder = ViewBag.estimateStatusIdSortParm, currentFilter = ViewBag.currentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("EstimateStatus", "Index", new { sortOrder = ViewBag.estimateStatusStrSortParm, currentFilter = ViewBag.currentFilter })
+        </th>
+        <th></th>
+    </tr>
+
+    @*for loop of each record*@
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstimateStatusId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstimateStatusStr)
+            </td>
+            <td>
+                @*Edit, Details, Delete links*@
+                @Html.ActionLink("Edit", "Edit", new { id = item.EstimateStatusId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.EstimateStatusId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.EstimateStatusId })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.Partial("_PagingPartial", Model) @*Paging*@
+
+
+@section Scripts{
+    <script>
+        selectdropdown(".dropdownSearch")
+    </script>
+    <script>
+        function ClearFields() {
+            document.getElementById('SearchEstimateStatus').value = ""; //sets the SearchBox textbox to value of null (clears it)
+            document.getElementById("SubmitButton").click(); //Applies the filter of null by clicking the submit button automatically
+        }
+    </script>
+}

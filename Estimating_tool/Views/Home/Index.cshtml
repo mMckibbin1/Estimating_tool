@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<link href="~/Content/Site.css" rel="stylesheet" />
+<style>
+    .jumbotron {
+        text-align: center;
+    }
+    .btn-primary {
+        background-color: darkslategray;
+        border-color: green;
+    }
+
+    #button1 {
+        width: 33%;
+        float: left;
+    }
+
+    #button2 {
+        width: 33%;
+        float: left;
+    }
+
+    #button3 {
+        width: 33%;
+        float: left;
+    }
+
+
+    .jumbotronbuttons {
+        margin-left: 15%;
+        margin-right: 15%;
+        margin-top: 30px;
+        margin-bottom: 45px;
+        align-content: center;
+        height: 100px;
+    }
+
+    .btn.btn-primary.homeTriple {
+        height: 40px;
+        width: 90%;
+    }
+
+</style>
+<div class="jumbotron">
+    <h1>Estimating Tool</h1>
+    <p class="lead">Version 1 early prototype 2019</p>
+    <br />
+    <p class="lead">Please select one of the button links below</p>
+    <br />
+    <div class="jumbotronbuttons">
+        <div id="button1"><a href="/Customers" class="btn btn-primary btn-lg">Customer &raquo;</a></div><div id="button2"><a href="/Projects" class="btn btn-primary btn-lg">Project &raquo;</a></div><div id="button3"><a href="~/EstimateHeader/Index/" class="btn btn-primary btn-lg">Estimate &raquo;</a></div>
+        <p></p>
+        @*Estimate shows as admin now*@
+    </div>
+</div>
+

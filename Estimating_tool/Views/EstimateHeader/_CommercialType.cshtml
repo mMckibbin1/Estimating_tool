@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Estimating_Tool.View_Model.Admin.CommercialType>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+	var project = ViewBag.CommercialType;
+	var ShowCD = ViewBag.ShowCD;
+	var ShowUM = ViewBag.ShowUM;
+	var ShowCT = ViewBag.ShowCT;
+	var ShowRO = ViewBag.ShowRO;
+
+}
+
+@using PagedList.Mvc;
+@using PagedList;
+<div class="column">
+	<h2>Commercial Type</h2>
+	@using (Html.BeginForm("AdminParent", "AdminT", new { ShowCD = !ShowCD, ShowUM = !ViewBag.ShowUM, ShowCT = !ViewBag.ShowCT, ShowRO = !ViewBag.ShowRO, ShowLIT = !ViewBag.ShowLIT, ShowLI = !ViewBag.ShowLI, currentView = @Path.GetFileNameWithoutExtension(Server.MapPath(VirtualPath)) }))
+	{
+		<p>
+			@Html.TextBox("SearchStringCT")
+			<input type="submit" value="Search" id="submitButtonCT" />
+			<input type="button" onclick="ClearFieldsCT()" value="Reset" />
+		</p>
+	}
+	<table id="tblData" class="table">
+		<thead>
+			<tr>
+				<th>
+					@Html.ActionLink("Commercial Type id", "AdminParent", new { SortOrder = "CommercialTypeId", ShowCD = !ViewBag.ShowCD, ShowUM = !ViewBag.ShowUM, ShowCT = !ShowCT, ShowRO = !ViewBag.ShowRO, ShowLIT = !ViewBag.ShowLIT, ShowLI = !ViewBag.ShowLI, currentView = @Path.GetFileNameWithoutExtension(Server.MapPath(VirtualPath)) })
+				</th>
+				<th>
+					@Html.ActionLink("Commercial type Name", "AdminParent", new { SortOrder = "CommercialTypeName", ShowCD = !ViewBag.ShowCD, ShowUM = !ViewBag.ShowUM, ShowCT = !ShowCT, ShowRO = !ViewBag.ShowRO, ShowLIT = !ViewBag.ShowLIT, ShowLI = !ViewBag.ShowLI, currentView = @Path.GetFileNameWithoutExtension(Server.MapPath(VirtualPath)) })
+				</th>
+				<th>
+					@Html.ActionLink("Is Active", "AdminParent", new { SortOrder = "isActve", ShowCD = !ViewBag.ShowCD, ShowUM = !ViewBag.ShowUM, ShowCT = !ShowCT, ShowRO = !ViewBag.ShowRO, ShowLIT = !ViewBag.ShowLIT, ShowLI = !ViewBag.ShowLI, currentView = @Path.GetFileNameWithoutExtension(Server.MapPath(VirtualPath)) })
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@if (Model != null)
+			{
+				foreach (var item in ViewBag.CommercialType)
+				{
+					<tr>
+						<td>
+							@item.CommercialTypeid
+						</td>
+						<td>
+							@item.CommercialtypeStr
+						</td>
+						<td>
+							@item.IsActive
+						</td>
+
+						<td>
+							@Html.ActionLink("Edit", "Edit", "CommercialType", new { id = item.CommercialTypeid, ShowCD = !ShowCD, ShowUM = !ViewBag.ShowUM, ShowCT = !ViewBag.ShowCT, ShowRO = !ViewBag.ShowRO, ShowLIT = !ViewBag.ShowLIT, ShowLI = !ViewBag.ShowLI }, null) |
+							@Html.ActionLink("Details", "Details", "CommercialType", new { id = item.CommercialTypeid, ShowCD = !ShowCD, ShowUM = !ViewBag.ShowUM, ShowCT = !ViewBag.ShowCT, ShowRO = !ViewBag.ShowRO, ShowLIT = !ViewBag.ShowLIT, ShowLI = !ViewBag.ShowLI }, null) |
+							@Html.ActionLink("Delete", "Delete", "CommercialType", new { id = item.CommercialTypeid, ShowCD = !ShowCD, ShowUM = !ViewBag.ShowUM, ShowCT = !ViewBag.ShowCT, ShowRO = !ViewBag.ShowRO, ShowLIT = !ViewBag.ShowLIT, ShowLI = !ViewBag.ShowLI }, null)
+						</td>
+					</tr>
+				}
+			}
+		</tbody>
+	</table>
+
+</div>
+
+<script>
+    function ClearFieldsCT() {
+        document.getElementById('SearchStringCT').value = ""; //sets the SearchBox textbox to value of null (clears it)
+        document.getElementById("submitButtonCT").click(); //Applies the filter of null by clicking the submit button automatically
+    }
+</script>
+
+
+
+
+
+
+

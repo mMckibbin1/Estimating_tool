@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Estimating_Tool.Models.EstimateDetail>
+
+@{
+				/**/
+
+				ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+	@Html.ActionLink("Create New", "Create")
+</p>
+
+Search by Estimate Note: @Html.Partial("_SearchStringPartial", Model) @*search box call with prompt*@
+
+<table class="table">
+	@*Table headers with sorting*@
+	<tr>
+		<th>
+			@Html.ActionLink("Estimate Name", "Index", new { sortOrder = ViewBag.EstimateName, currentFilter = ViewBag.currentFilter })
+		</th>
+		<th>
+			@Html.ActionLink("Line Item Type", "Index", new { sortOrder = ViewBag.LineItemTyeStr, currentFilter = ViewBag.currentFilter })
+		</th>
+		<th>
+			@Html.ActionLink("Estimate", "Index", new { sortOrder = ViewBag.Estimate, currentFilter = ViewBag.currentFilter })
+		</th>
+		<th>
+			@Html.ActionLink("Note", "Index", new { sortOrder = ViewBag.NoteSortParm, currentFilter = ViewBag.currentFilter })
+		</th>
+		<th>
+
+		</th>
+		<th></th>
+	</tr>
+
+	@*for loop of each record*@
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.estimateHeader.EstimateName)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.lineItem.LineItemTypeGroup.GetLineItemType.LineItemTypeStr)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Estimate)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Note)
+			</td>
+			<td>
+				@*Edit, Details, Delete links*@
+				@Html.ActionLink("Edit", "Edit", new { id = item.EstimateDetailId }) |
+				@Html.ActionLink("Details", "Details", new { id = item.EstimateDetailId }) |
+				@Html.ActionLink("Delete", "Delete", new { id = item.EstimateDetailId })
+			</td>
+		</tr>
+	}
+
+</table>
+
+@Html.Partial("_PagingPartial", Model) @*Paging*@
+
+

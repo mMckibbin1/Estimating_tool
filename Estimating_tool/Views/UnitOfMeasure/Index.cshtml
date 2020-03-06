@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Estimating_Tool.Models.UnitOfMeasure>
+
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@using (Html.BeginForm())
+{
+    @Html.DropDownList("searchString", (IEnumerable<SelectListItem>)ViewBag.DropdownOptions, new { @class = "dropdownSearch", @id = "SearchUnitOfMeasure", @title = "Search Unit of measure" })
+    <input type="submit" value="search" id="SubmitButton" />
+    <input type="button" value="Clear" id="clearButton" onclick="ClearFields()" />
+}
+
+@if (TempData["RecordAdded"] != null)
+{
+    <div class="AllGood">
+        @TempData["RecordAdded"]
+    </div>
+}@if (TempData["RecordEdited"] != null)
+{
+    <div class="AllGood">
+        @TempData["RecordEdited"]
+    </div>
+}@if (TempData["RecordDeleted"] != null)
+{
+    <div class="AllGood">
+        @TempData["RecordDeleted"]
+    </div>
+}
+    <table class="table">
+        @*Table headers with sorting*@
+        <tr>
+            <th>
+                @Html.ActionLink("Id", "Index", new { sortOrder = ViewBag.UnitOfMeasureIdSortParm, currentFilter = ViewBag.currentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("Unit Of Measure", "Index", new { sortOrder = ViewBag.UnitOfMeasureStrSortParm, currentFilter = ViewBag.currentFilter })
+            </th>
+        </tr>
+
+        @*for loop of each record*@
+        @foreach (var item in Model)
+        {
+            @Html.HiddenFor(modelItem => item.IsActive)
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitOfMeasureId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitOfMeasureStr)
+                </td>
+                <td>
+                    @*Edit, Details, Delete links*@
+                    @Html.ActionLink("Edit", "Edit", new { id = item.UnitOfMeasureId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.UnitOfMeasureId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.UnitOfMeasureId })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+@Html.Partial("_PagingPartial", Model) @*Paging*@
+
+
+@section Scripts{
+<script>
+    selectdropdown(".dropdownSearch")
+</script>
+<script>
+    function ClearFields() {
+        document.getElementById('SearchUnitOfMeasure').value = ""; //sets the SearchBox textbox to value of null (clears it)
+        document.getElementById("SubmitButton").click(); //Applies the filter of null by clicking the submit button automatically
+    }
+</script>
+}

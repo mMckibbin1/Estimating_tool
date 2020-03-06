@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Multiply";
+}
+
+<h2>Multiply</h2>
+
+<script type="text/javascript">
+    function Multiply(n1, n2)
+    {
+        var no1 = parseFloat(n1)
+        var no2 = parseFloat(n2)
+        var no3 = no1 * no2
+        myform.total.value = no3
+        //simple multiplication method
+
+        if (isNaN(myform.total.value))
+        {
+            myform.total.value = ""
+        } /*checks if the total box is not a number yet, and if so sets it to blank.
+        not doing this will return a value of NaN in the text box.
+        this occurs when one text box isn't filled in and one is.*/
+    }
+</script>
+
+<form name="myform">
+    <p>Duration</p><input type="text" name="duration" oninput="Multiply(duration.value, rate.value)" /> @*Duration text box*@
+    <p>Rate</p><input type="text" name="rate" oninput="Multiply(duration.value, rate.value)" /> @*Rate text box*@
+    <p>Total</p><input type="text" name="total" /> @*Total text box*@
+</form>

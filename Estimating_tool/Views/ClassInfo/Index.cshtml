@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Estimating_Tool.Models.ClassInfo>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>View</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-bordered table-responsive table-hover">
+    <thead>
+        <tr>
+            <th>Class </th>
+            <th>Students</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var d in Model)
+        {
+            <tr>
+                <td>@d.ClassName</td>
+                <td>@d.Students</td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td>Total</td>
+            <td>@Model.Sum(i => i.Students)</td>
+        </tr>
+        <tr>
+            <td>Count</td>
+            <td>@Model.Count()</td>
+        </tr>
+        <tr>
+            <td>Avg</td>
+            <td>@Model.Average(i => i.Students).ToString("0.00")</td>
+        </tr>
+        <tr>
+            <td>Min</td>
+            <td>@Model.Min(i => i.Students)</td>
+        </tr>
+        <tr>
+            <td>Max</td>
+            <td>@Model.Max(i => i.Students)</td>
+        </tr>
+    </tfoot>
+</table>

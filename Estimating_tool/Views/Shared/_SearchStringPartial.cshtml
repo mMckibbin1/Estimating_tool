@@ -1,0 +1,32 @@
+﻿@* Styling *@
+<style>
+    input[type=button], input[type=submit] {
+        background-color: darkslategray;
+        border: 1px solid green;
+        color: white;
+        width: 100px;
+    }
+</style>
+
+@* Search string method *@
+@using (Html.BeginForm())
+{
+    <p>
+        @Html.TextBox("SearchString", null, new { @id = "SearchBox", @maxlength = "100" }) @*Sets id to call on by script function later*@
+
+        <input type="submit" onfocus="this.value.clear=''" autocomplete="off" value="Search" id="SubmitButton" /> @*onfocus setting it blank. Autocomplete off removing suggestions (as needed in multiple pages)*@
+        <input type="button" onclick="ClearFields();" value="Clear"> @*button to clear searchstring runs ClearFields() script*@
+    </p>
+} @*search text box*@
+
+@*ONLY use if you are using the searchstring search in your controller.
+    This will not work for multiple filters in one form. i.e. use once per index.*@
+
+@* Javascript function *@
+    <script>
+        function ClearFields() {
+            document.getElementById('SearchBox').value = ""; //sets the SearchBox textbox to value of null (clears it)
+            document.getElementById("SubmitButton").click(); //Applies the filter of null by clicking the submit button automatically
+        }
+    </script>
+

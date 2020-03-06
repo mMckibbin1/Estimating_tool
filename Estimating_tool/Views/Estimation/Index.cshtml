@@ -1,0 +1,152 @@
+﻿@model Estimating_Tool.View_Model.EstimationViewModelS
+
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+}
+
+<style>
+    .totals {
+        width: 100%;
+        padding: 0 18px;
+        display: none;
+        overflow: hidden;
+    }
+
+    .DurationTotals {
+        width: 50%;
+        float: left;
+    }
+
+    #DurationTotalsTitles {
+        width: 25%;
+        float: left;
+    }
+
+    #DurationTotalsBoxes {
+        width: 75%;
+        float: left;
+    }
+
+    .CostTotals {
+        width: 50%;
+        float: left;
+    }
+
+    #CostTotalsTitles {
+        width: 25%;
+        float: left;
+    }
+
+    #CostTotalsBoxes {
+        width: 75%;
+        float: left;
+    }
+
+    #hr1 {
+        height: 1px;
+        border: none;
+        color: #000;
+        background-color: #000;
+    }
+</style>
+
+<br />
+<ul class="nav nav-tabs nav-justified" role="tablist" data-tab data-options="deep_linking: true">
+    <li class="active">
+        <a href="#Tab1" aria-controls="Tab1" role="tab" data-toggle="tab">Estimate Header </a>
+    </li>
+    <li>
+        <a href="#Tab2" aria-controls="Tab2" role="tab" data-toggle="tab">General Estimation</a>
+    </li>
+    <li>
+        <a href="#Tab3" aria-controls="Tab3" role="tab" data-toggle="tab">Project Specific Tasks</a>
+    </li>
+</ul>
+
+@*tab panes*@
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane active in fade" id="Tab1">
+        <br />
+        @Html.Partial("~/Views/Estimation/_IndexEstimateHeader.cshtml", Model.EstimateHeaderVM)
+    </div>
+    <div role="tabpanel" class="tab-pane fade" id="Tab2">
+        <br />
+        @Html.Partial("~/Views/Estimation/_IndexEstimation.cshtml", Model.ParentEstimation)
+    </div>
+    <div role="tabpanel" class="tab-pane fade" id="Tab3">
+        <br />
+        @Html.Partial("~/Views/Estimation/_EstimationTasks.cshtml", Model.ParentEstimation)
+    </div>
+</div>
+
+<style>
+    .toggle {
+        -moz-transition: transform 1s;
+        -webkit-transition: transform 1s;
+        transition: transform 1s;
+    }
+
+    .flip {
+        transform: rotate(-180deg);
+    }
+</style>
+
+<hr id="hr1" />
+<button onclick="showTotals();">Show Totals</button><img src="~/Content/img/DownArrow.png" id="totalsArrow" class="toggle" style="width:35px; height:35px; padding-left:10px; padding-right:10px; padding:10px;" />
+<div class="totals">
+
+    <table class="table" id="totals">
+        <thead>
+            <tr>
+                <th><h4>Duration Total</h4></th>
+                <th></th>
+                <th><h4>Cost Total</h4></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ParentEstimation.groups.Select(x => x.LineItemTypeGroupStr))
+            {
+                if (item != "Development Work")
+                {
+                    <tr>
+                        <td><label>@item</label> </td>
+                        <td><input type="text" readonly="readonly" class="DurationTotal" /></td>
+                        <td><label>@item</label></td>
+                        <td><input type="text" class="CostTotal" readonly="readonly" /></td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td><label>@item</label> </td>
+                        <td><input type="text" readonly="readonly" class="DevDuration" /></td>
+                        <td><label>@item</label></td>
+                        <td><input type="text" readonly="readonly" class="DevCost" /></td>
+                    </tr>
+                }
+
+            }
+
+        </tbody>
+        <tr>
+            <th><h4>Overall Duration</h4></th>
+            <th>
+            </th>
+            <th><h4>Overall Cost</h4></th>
+            <th></th>
+        </tr>
+        <tr>
+            <td><label>Overall Duration</label></td>
+            <td><input type="text" readonly="readonly" id="overallTotalDuration" /></td>
+            <td><label>Cost Total</label></td>
+            <td><input type="text" readonly="readonly" id="overallTotalCost" /></td>
+        </tr>
+    </table>
+
+</div>
+@Html.Partial("~/Views/Estimation/_ScriptsPartial.cshtml")
+
+

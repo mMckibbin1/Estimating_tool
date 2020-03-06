@@ -1,0 +1,111 @@
+﻿@model Estimating_Tool.Models.Project
+
+@{
+    /**/
+
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+	<h4>Project</h4>
+	<hr />
+	<dl class="dl-horizontal">
+		<dt>
+			@Html.DisplayNameFor(model => model.CustomerID)
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.CustomerID)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.customer.CustomerName)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.customer.CustomerName)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.AtlasID)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.AtlasID)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.ProjectName)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.ProjectName)
+		</dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CurrencyId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CurrencyId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.currency.CurrencyName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.currency.CurrencyName)
+        </dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.Rate)
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.Rate)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.CreatedDate)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.CreatedDate)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.CreatedBy)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.CreatedBy)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.ModifiedDate)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.ModifiedDate)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.ModifiedBy)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.ModifiedBy)
+		</dd>
+
+	</dl>
+</div>
+<p>
+
+    <input type="button" value="Edit" class="btn btn-default" onclick="location.href='@Url.Action("Edit", "Projects", new { id = Model.ProjectId }, null)'" /> |
+    @if (ViewBag.Return == "Project")
+    {
+        @Html.ActionLink("Back to List", "Index")
+    }
+    else if (ViewBag.Return == "CustomerDetails")
+    {
+        @Html.ActionLink("Details", "Details", "CustomerDetails", new { id = Model.CustomerID }, null)
+    }
+    else
+    {
+        @Html.ActionLink("Back to List", "Index")
+    }
+</p>

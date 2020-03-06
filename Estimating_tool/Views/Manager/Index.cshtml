@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Estimating_Tool.Models.Manager>
+
+@{
+                /**/
+
+                ViewBag.Title = "Managers";
+}
+@*DataTables JS and CSS files are needed for the table formatting and functionality*@
+<link href="~/DataTables/datatables.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/DataTables/datatables.min.js"></script>
+<script src="~/Scripts/TableSort.js"></script>
+<script src="~/Scripts/TabPick.js"></script>
+<h2>Managers</h2>
+@*when a Manager is created, updated or deleted, the relevant controler sets the TempData value to display the correct feedback to the user*@
+@if (TempData["ManagerMessage"] != null)
+{
+    <div class="AllGood">
+        @TempData["ManagerMessage"]
+    </div>
+
+}
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="display myTable">
+    <thead>
+        <tr>
+            <th>
+                <p>Username</p>
+            </th>
+            <th>
+                <p>First Name</p>
+            </th>
+            <th>
+                <p>Last Name</p>
+            </th>
+            <th>
+                <p>Actions</p>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Username)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Firstname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lastname)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

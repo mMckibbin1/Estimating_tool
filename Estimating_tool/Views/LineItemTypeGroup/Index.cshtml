@@ -1,0 +1,95 @@
+﻿@model PagedList.IPagedList<Estimating_Tool.Models.LineItemTypeGroup>
+
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+}
+<link href="~/Content/Site.css" rel="stylesheet" />
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@using (Html.BeginForm())
+{
+    @Html.DropDownList("searchString", (IEnumerable<SelectListItem>)ViewBag.DropdownOptions, new { @class = "dropdownSearch", @id = "SearchLineItemTypeGroupName", @title = "Search Line Item Group Name", })
+    <input type="submit" value="search" id="SubmitButton" />
+    <input type="button" value="Clear" id="clearButton" onclick="ClearFields()" />
+}
+
+@if (TempData["RecordAdded"] != null)
+{
+    <div class="AllGood">
+        @TempData["RecordAdded"]
+    </div>
+}@if (TempData["RecordEdited"] != null)
+{
+    <div class="AllGood">
+        @TempData["RecordEdited"]
+    </div>
+}@if (TempData["RecordDeleted"] != null)
+{
+    <div class="AllGood">
+        @TempData["RecordDeleted"]
+    </div>
+}
+<table class="table">
+    @*Table headers with sorting*@
+    <tr>
+        <th>
+            @Html.ActionLink("Id", "Index", new { sortOrder = ViewBag.LineItemTypeGroupIdSortParm, currentFilter = ViewBag.currentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("LineItemType", "Index", new { sortOrder = ViewBag.LineItemTypeGroupIdSortParm, currentFilter = ViewBag.currentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Line Item Type Group Name", "Index", new { sortOrder = ViewBag.LineItemTypeGroupStrSortParm, currentFilter = ViewBag.currentFilter })
+        </th>
+    </tr>
+
+    @*for loop of each record*@
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LineItemTypeGroupId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GetLineItemType.LineItemTypeStr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LineItemTypeGroupStr)
+            </td>
+            <td>
+                @*Edit, Details, Delete links*@
+                @Html.ActionLink("Edit", "Edit", new { id = item.LineItemTypeGroupId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.LineItemTypeGroupId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.LineItemTypeGroupId })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.Partial("_PagingPartial", Model) @*Paging*@
+
+@section Scripts{
+    <script>
+        selectdropdown(".dropdownSearch")
+    </script>
+    <script>
+        function ClearFields() {
+            document.getElementById('SearchLineItemTypeGroupName').value = ""; //sets the SearchBox textbox to value of null (clears it)
+            document.getElementById("SubmitButton").click(); //Applies the filter of null by clicking the submit button automatically
+        }
+    </script>
+}
+<style>
+    /*Will overide the width of the dropdowns to display title correctly*/
+    .bootstrap-select > .dropdown-toggle {
+        width: auto !important;
+    }
+</style>
+

@@ -1,0 +1,121 @@
+﻿@model Estimating_Tool.Models.EstimateHeader
+
+@{
+				/**/
+
+				ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+	<h4>EstimateHeader</h4>
+	<hr />
+	<dl class="dl-horizontal">
+		<dt>
+			@Html.DisplayNameFor(model => model.CustomerId)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.project.customer.CustomerName)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.ProjectId)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.project.ProjectName)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.EstimateName)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.EstimateName)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.UnitOfMeasureId)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.unitOfMeasure.UnitOfMeasureStr)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.EstimateTypeId)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.estimateType.EstimateTypeStr)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.CommercialTypeId)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.commercialType.CommercialTypeStr)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.ContingencyDefaultId)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.contingencyDefault.ContingencyDefaultInt)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.EstimateStatusId)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.estimateStatus.EstimateStatusStr)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.CreatedDate)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.CreatedDate)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.CreatedBy)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.CreatedBy)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.ModifiedDate)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.ModifiedDate)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.ModifiedBy)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.ModifiedBy)
+		</dd>
+
+	</dl>
+</div>
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+<div class="form-actions no-color">
+    <input type="button" value="Edit" class="btn btn-default" onclick="location.href='@Url.Action("Edit", "EstimateHeader", new { id = Model.EstimateHeaderId}, null)'" /> |
+    @Html.ActionLink("Back to List", "Index")
+</div>
+}

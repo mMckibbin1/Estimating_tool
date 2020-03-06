@@ -1,0 +1,8 @@
+﻿@model PagedList.IPagedList
+@using PagedList.Mvc;
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+	new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+@*paging*@
+@*ONLY to be used when there's a specific model outlines on line 1 of the cshtml page. This is so it know's what model to look at*@

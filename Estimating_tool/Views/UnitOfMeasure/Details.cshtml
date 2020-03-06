@@ -1,0 +1,79 @@
+﻿@model Estimating_Tool.Models.UnitOfMeasure
+
+@{
+				/**/
+
+				ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+	<h4>Unit Of Measure</h4>
+	<hr />
+	<dl class="dl-horizontal">
+		<dt>
+			@Html.DisplayNameFor(model => model.UnitOfMeasureId)
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.UnitOfMeasureId)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.UnitOfMeasureStr)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.UnitOfMeasureStr)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.CreatedDate)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.CreatedDate)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.CreatedBy)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.CreatedBy)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.ModifiedDate)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.ModifiedDate)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.ModifiedBy)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.ModifiedBy)
+		</dd>
+
+		<dt>
+			@Html.HiddenFor(model => model.IsActive)
+		</dt>
+
+		<dd>
+			@Html.HiddenFor(model => model.IsActive)
+		</dd>
+
+	</dl>
+</div>
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+<div class="form-actions no-color">
+    <input type="button" value="Edit" class="btn btn-default" onclick="location.href='@Url.Action("Edit", "UnitOfMeasure", new { id = Model.UnitOfMeasureId }, null)'" /> |
+    @Html.ActionLink("Back to List", "Index")
+</div>
+}

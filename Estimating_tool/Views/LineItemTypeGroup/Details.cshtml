@@ -1,0 +1,78 @@
+﻿@model Estimating_Tool.Models.LineItemTypeGroup
+
+@{
+				/**/
+
+				ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+	<h4>Line Item Type Group</h4>
+	<hr />
+	<dl class="dl-horizontal">
+		<dt>
+			@Html.DisplayNameFor(model => model.LineItemTypeGroupId)
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.LineItemTypeGroupId)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.LineItemType)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.GetLineItemType.LineItemTypeStr)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.LineItemTypeGroupStr)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.LineItemTypeGroupStr)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.CreatedDate)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.CreatedDate)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.CreatedBy)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.CreatedBy)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.ModifiedDate)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.ModifiedDate)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.ModifiedBy)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.ModifiedBy)
+		</dd>
+	</dl>
+</div>
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+<div class="form-actions no-color">
+    <input type="button" value="Edit" class="btn btn-default" onclick="location.href='@Url.Action("Edit", "LineItemTypeGroup", new { id = Model.LineItemTypeGroupId }, null)'" /> |
+    @Html.ActionLink("Back to List", "Index")
+</div>
+}

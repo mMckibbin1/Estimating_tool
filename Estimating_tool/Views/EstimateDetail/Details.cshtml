@@ -1,0 +1,95 @@
+﻿@model Estimating_Tool.Models.EstimateDetail
+
+@{
+				/**/
+
+				ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+	<h4>EstimateDetail</h4>
+	<hr />
+	<dl class="dl-horizontal">
+		<dt>
+			@Html.DisplayNameFor(model => model.EstimateDetailId)
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.EstimateDetailId)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.estimateHeader.EstimateName)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.estimateHeader.EstimateName)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.LineItem.LineItemStr)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.LineItem.LineItemStr)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.Estimate)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.Estimate)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.Note)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.Note)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.CreatedDate)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.CreatedDate)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.CreatedBy)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.CreatedBy)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.ModifiedDate)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.ModifiedDate)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.ModifiedBy)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.ModifiedBy)
+		</dd>
+
+	</dl>
+</div>
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+<div class="form-actions no-color">
+    <input type="button" value="Edit" class="btn btn-default" onclick="location.href='@Url.Action("Edit", "EstimateDetail", new { id = Model.EstimateDetailId}, null)'" /> |
+    @Html.ActionLink("Back to List", "Index")
+</div>
+}
