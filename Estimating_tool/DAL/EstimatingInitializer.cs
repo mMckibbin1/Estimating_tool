@@ -19,15 +19,15 @@ namespace Estimating_Tool.DAL
             var customer = new List<Customer>
                 {
                     new Customer{CustomerID=1, AtlasID=24587956.ToString(), CreatedBy="mccoooeyp", CreatedDate=DateTime.Parse("2019-01-25"),
-                        CustomerName ="Sustainable Energy Authority of Ireland", ModifiedBy="mccooeyp",ModifiedDate=DateTime.Parse("2019-01-25"), IsActive = true},
+                        CustomerName ="Company 1", ModifiedBy="mccooeyp",ModifiedDate=DateTime.Parse("2019-01-25"), IsActive = true},
                     new Customer{CustomerID=2, AtlasID=54875154.ToString(), CreatedBy="mccoooeyp", CreatedDate=DateTime.Parse("2019-01-25"),
-                        CustomerName ="Local Government Management Authority", ModifiedBy="mccooeyp",ModifiedDate=DateTime.Parse("2019-01-25"), IsActive = true },
+                        CustomerName ="Company 2", ModifiedBy="mccooeyp",ModifiedDate=DateTime.Parse("2019-01-25"), IsActive = true },
                     new Customer{CustomerID=3, AtlasID=54875421.ToString(), CreatedBy="mccoooeyp", CreatedDate=DateTime.Parse("2019-01-25"),
-                        CustomerName ="Arnotts", ModifiedBy="mccooeyp",ModifiedDate=DateTime.Parse("2019-01-25") , IsActive = true},
+                        CustomerName ="Company 3", ModifiedBy="mccooeyp",ModifiedDate=DateTime.Parse("2019-01-25") , IsActive = true},
                     new Customer { CustomerID = 4, AtlasID = 546985.ToString(), CreatedBy = "mccoooeyp", CreatedDate = DateTime.Parse("2019-01-25"),
-                        CustomerName = "DAE", ModifiedBy = "mccooeyp", ModifiedDate = DateTime.Parse("2019-01-25"), IsActive = true },
+                        CustomerName = "Company 4", ModifiedBy = "mccooeyp", ModifiedDate = DateTime.Parse("2019-01-25"), IsActive = true },
                     new Customer { CustomerID = 5, AtlasID = 58745.ToString(), CreatedBy = "mccoooeyp", CreatedDate = DateTime.Parse("2019-01-25"),
-                        CustomerName = "SOLAS", ModifiedBy = "mccooeyp", ModifiedDate = DateTime.Parse("2019-01-25"), IsActive = true},
+                        CustomerName = "Company 5", ModifiedBy = "mccooeyp", ModifiedDate = DateTime.Parse("2019-01-25"), IsActive = true},
                 };
             customer.ForEach(n => context.Customer.Add(n));
             context.SaveChanges();
@@ -380,13 +380,6 @@ namespace Estimating_Tool.DAL
 			//initial Manager seed data
 			var Managers = new List<Manager>
 			{
-				new Manager{Firstname="Helen", Lastname="Cole", Username="V1\\coleh" },
-				new Manager{Firstname="Keith", Lastname="Jones", Username="V1\\joneskei" },
-				new Manager{Firstname="Orlaith", Lastname="Carey", Username="V1\\careyo" },
-				new Manager{Firstname="Patrick", Lastname="McCooey", Username="V1\\mccooeyp"},
-				new Manager{Firstname="Mark", Lastname="Davidson", Username="V1\\davidsonm"},
-				new Manager{Firstname="Matthew", Lastname="McKibbin", Username="V1\\mckibbinm"},
-				new Manager{Firstname="Conor", Lastname="McKibbin", Username="V1\\mckibbinc"},
 
 
 			};
@@ -407,56 +400,8 @@ namespace Estimating_Tool.DAL
 			//initial Consultant seed data
 			var Consultants = new List<Consultant>
 			{
-				new Consultant{Firstname="Robert", Lastname="Twyford", Username="V1\\Twyfordr", ManagerId=2},
-				new Consultant{Firstname="Swathi", Lastname="Senthil-Kumar", Username="V1\\KumarS", ManagerId=2},
-				new Consultant{Firstname="Mallory", Lastname="McConville", Username="V1\\MCConvilleM", ManagerId=2},
-				new Consultant{Firstname="Alberto", Lastname="Hortiguela", Username="V1\\HordiguelaA", ManagerId=2},
-				new Consultant{Firstname="Dragomir", Lastname="Donkov", Username="V1\\DonkovD", ManagerId=2},
-				new Consultant{Firstname="Fabio", Lastname="Parente", Username="V1\\ParenteF", ManagerId=2},
-				new Consultant{Firstname="Boris", Lastname="Hubner", Username="V1\\HubnerB", ManagerId=2},
-				new Consultant{Firstname="Shane", Lastname="Bourke", Username="V1\\BourheS", ManagerId=1},
-				new Consultant{Firstname="John", Lastname="Cronogue", Username="V1\\CronogueJ", ManagerId=1},
-				new Consultant{Firstname="Anke", Lastname="Tabaku", Username="V1\\TabakuA", ManagerId=2},
-				new Consultant{Firstname="Francois", Lastname="Malgreve", Username="V1\\MalgreveF", ManagerId=1},
-				new Consultant{Firstname="Aastha", Lastname="Hissaria", Username="V1\\HissariaA", ManagerId=2},
-				new Consultant{Firstname="Stuart", Lastname="Retson", Username="V1\\RetsonS", ManagerId=2},
-				new Consultant{Firstname="Victoria", Lastname="Kenny", Username="V1\\KennyV", ManagerId=1},
-				new Consultant{Firstname="Gavin", Lastname="Doherty", Username="V1\\DohertyG", ManagerId=2},
-				new Consultant{Firstname="Nigel", Lastname="Liggett", Username="V1\\LiggettN", ManagerId=2},
-				new Consultant{Firstname="Michael", Lastname="Brooks", Username="V1\\BrooksM", ManagerId=1},
-				new Consultant{Firstname="Bhaswar", Lastname="Dutta", Username="V1\\DuttaB", ManagerId=1},
-				new Consultant{Firstname="Donal", Lastname="Devine", Username="V1\\DevineD", ManagerId=2},
-				new Consultant{Firstname="Andre", Lastname="Leite", Username="V1\\LeiteA", ManagerId=1},
-				new Consultant{Firstname="Simi", Lastname="Sebastian", Username="V1\\SebastianS", ManagerId=1},
-				new Consultant{Firstname="Vaishali", Lastname="Kothandan", Username="V1\\KothandanV", ManagerId=1},
-				new Consultant{Firstname="Hayleigh", Lastname="Wronski", Username="V1\\WronskiH", ManagerId=1},
-				new Consultant{Firstname="Alan", Lastname="Paladini", Username="V1\\PaladiniA", ManagerId=1},
-				new Consultant{Firstname="Gustavo", Lastname="Rocha", Username="V1\\RochaG", ManagerId=2},
-				new Consultant{Firstname="Adam", Lastname="McGready", Username="V1\\McGreadyA", ManagerId=3},
-				new Consultant{Firstname="Arjun", Lastname="Ramesh", Username="V1\\RameshA", ManagerId=3},
-				new Consultant{Firstname="Carol", Lastname="Deegan", Username="V1\\DeeganC", ManagerId=3},
-				new Consultant{Firstname="Chris", Lastname="Monyihan", Username="V1\\MonyihanC", ManagerId=3},
-				new Consultant{Firstname="Conor", Lastname="Byrne", Username="V1\\ByrneC", ManagerId=3},
-				new Consultant{Firstname="David", Lastname="OConnell", Username="V1\\OConnellD", ManagerId=3},
-				new Consultant{Firstname="Eoin", Lastname="Maher", Username="V1\\MaherE", ManagerId=3},
-				new Consultant{Firstname="Hamzah", Lastname="Hassan", Username="V1\\HassanH", ManagerId=3},
-				new Consultant{Firstname="Jean", Lastname="Loughran", Username="V1\\LoughranJ", ManagerId=3},
-				new Consultant{Firstname="Odhran", Lastname="OMaoileidigh", Username="V1\\OMaoileidighO", ManagerId=4},
-				new Consultant{Firstname="Suzanne", Lastname="Hennessy", Username="V1\\HennessyS", ManagerId=4},
-				new Consultant{Firstname="Tim", Lastname="Leung", Username="V1\\LeungT", ManagerId=4},
-                new Consultant{Firstname="conor2",Lastname="McKibbin",Username="V1\\MckibbinC",ManagerId=4 },
-                new Consultant{Firstname="Matthew",Lastname="McKibbin",Username="V1\\MckibbinM",ManagerId=4 },
-                new Consultant{Firstname="Mark",Lastname="Davidson", Username="V1\\DavidsonM", ManagerId=4}
 			};
 			Consultants.ForEach(i => context.Consultants.Add(i));
-			context.SaveChanges();
-
-			var Teams = new List<Team>
-			{
-				new Team{TeamName=".NET Services 2", ManagerId = 1},
-				new Team{TeamName = "ERP L1", ManagerId = 4 }
-			};
-			Teams.ForEach(i => context.Teams.Add(i));
 			context.SaveChanges();
 		}
     }
